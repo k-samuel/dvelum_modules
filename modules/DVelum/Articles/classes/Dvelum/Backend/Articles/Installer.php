@@ -1,5 +1,5 @@
 <?php
-class Dvelum_Backend_Articles_Installer extends Externals_Installer
+class Dvelum_Backend_Articles_Installer implements Externals_Installer
 {
     /**
      * @var array
@@ -12,6 +12,14 @@ class Dvelum_Backend_Articles_Installer extends Externals_Installer
      * @return boolean
      */
     public function run(Config_Abstract $applicationConfig){
+
+    }
+
+    /**
+     * Get installation errors
+     * @return array
+     */
+    public function getErrors(){
 
     }
 }
