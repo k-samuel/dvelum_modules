@@ -7,6 +7,7 @@ return [
     'configs' => './configs',
     'locales' => './locales',
     'resources' =>'./resources',
+    'vendor'=>'Dvelum',
     'autoloader'=> [
         './classes'
     ],

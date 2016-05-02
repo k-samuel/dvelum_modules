@@ -8,4 +8,5 @@
   6 => 'allow_comments',
   7 => 'brief',
   8 => 'tags',
+  9 => 'article_page',
 ); 

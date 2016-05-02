@@ -8,4 +8,5 @@
   'allow_comments' => 'Allow comments',
   'brief' => 'Brief',
   'tags' => 'Tags',
+  'article_page' => 'Article page',
 ); 
