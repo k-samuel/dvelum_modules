@@ -6,7 +6,7 @@ class Dvelum_Sitemap
 
     public function setUrl($url)
     {
-        $this->$url = $url;
+        $this->url = $url;
     }
 
     /**
@@ -36,11 +36,6 @@ class Dvelum_Sitemap
      * @return string
      */
     public function getMapXml($code)
-    {
-
-    }
-
-    public function __toXml()
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml.= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
