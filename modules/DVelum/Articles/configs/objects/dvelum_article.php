@@ -144,7 +144,7 @@
       'unique' => 'url',
       'db_isNull' => false,
       'required' => true,
-      'validator' => '',
+      'validator' => 'Validator_Pagecode',
       'db_type' => 'varchar',
       'db_default' => '',
       'db_len' => 150,
@@ -185,5 +185,4 @@
   'slave_connection' => 'default',
   'parent_object' => '',
   'log_detalization' => 'default',
-  'rev_control' => true
 ); 

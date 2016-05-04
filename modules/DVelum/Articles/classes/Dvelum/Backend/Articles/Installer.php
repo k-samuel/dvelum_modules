@@ -104,6 +104,16 @@ class Dvelum_Backend_Articles_Installer extends Externals_Installer
                 return false;
             }
         }
+
+        // Add permissions
+        $userInfo = User::getInstance()->getInfo();
+        $permissionsModel = Model::factory('Permissions');
+        if(!$permissionsModel->setGroupPermissions($userInfo['group_id'], 'Dvelum_Articles' , 1 , 1 , 1 , 1)){
+            return false;
+        }
+        if(!$permissionsModel->setGroupPermissions($userInfo['group_id'], 'Dvelum_Articles_Category' , 1 , 1 , 1 , 1)){
+            return false;
+        }
     }
 
     /**

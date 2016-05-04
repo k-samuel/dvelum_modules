@@ -61,6 +61,7 @@ class Dvelum_Backend_Articles_Controller extends Backend_Controller_Crud_Vc
     protected function _getList()
     {
         $data =  parent::_getList();
+
         $mediaModel = Model::factory('Medialib');
 
         if(empty($data))
