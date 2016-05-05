@@ -8,7 +8,7 @@ return [
     'vendor'=>'Dvelum',
     'locales' => './locales',
     'autoloader'=> [
-        './library'
+        './classes'
     ],
     'post-install'=>'Dvelum_Backend_Sitemap_Installer'
 ];

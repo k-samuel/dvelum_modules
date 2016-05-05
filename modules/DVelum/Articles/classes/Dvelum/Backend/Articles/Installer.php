@@ -89,7 +89,7 @@ class Dvelum_Backend_Articles_Installer extends Externals_Installer
                     'blocks'=>'',
                     'theme'=>'default',
                     'date_published'=>date('Y-m-d H:i:s'),
-                    'in_site_map'=>true,
+                    'in_site_map'=>false,
                     'default_blocks'=>true
                 ));
 

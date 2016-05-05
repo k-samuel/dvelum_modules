@@ -1,21 +1,19 @@
 <?php
-class Dvelum_Sitemap_Pages extends Dvelum_Sitemap_Adapter
+class Dvelum_Sitemap_Articles extends Dvelum_Sitemap_Adapter
 {
     public function getItemsXML()
     {
-        $pagesModel = Model::factory('page');
+        $articlesModel = Model::factory('dvelum_article');
 
-        $list = $pagesModel->getList(array(
-            'sort' => array(
-                'parent_id' ,
-                'order_no'
-            ),
+        $list = $articlesModel->getList(array(
+            'sort' => 'id',
+            'dir' => 'DESC',
+            'start'=>0,
+            'limit'=>30000
         ) , array(
-            'published' => true ,
-            'in_site_map' => true
+            'published' => true,
         ) , array(
-            'code' ,
-            'func_code',
+            'url' ,
             'date_updated' => ' DATE_FORMAT(date_updated,"%Y-%m-%d")' ,
             'date_created' => ' DATE_FORMAT(date_created,"%Y-%m-%d")'
         ));
@@ -23,14 +21,11 @@ class Dvelum_Sitemap_Pages extends Dvelum_Sitemap_Adapter
         $curDate = date('Y-m-d');
 
         $xml = '';
+        $articlesPage = $this->router->findUrl('dvelum_articles_item');
+
         foreach($list as $k => $v)
         {
-            $url = Request::url([$v['code']]);
-
-            if(!empty($v['func_code'])) {
-                $xml .= $this->createItemXML($url, $curDate , self::CHANGEFREQ_DAILY, 0.9);
-                continue;
-            }
+            $url = Request::url([$articlesPage , $v['url']]);
 
             if(strlen($v['date_updated'])) {
                 $xml .= $this->createItemXML($url, $v['date_updated'], self::CHANGEFREQ_WEEKLY, 0.8);

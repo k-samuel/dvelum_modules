@@ -12,6 +12,11 @@ abstract class Dvelum_Sitemap_Adapter
     protected $scheme = 'http://';
 
     /**
+     * @var Router
+     */
+    protected $router;
+
+    /**
      * Set sitemap http scheme
      * @param $scheme
      */
@@ -30,6 +35,14 @@ abstract class Dvelum_Sitemap_Adapter
     }
 
     /**
+     * @param Router $router
+     */
+    public function setRouter(Router $router)
+    {
+        $this->router = $router;
+    }
+
+    /**
      * Get item xml
      * @param $url
      * @param $lastMod
@@ -37,7 +50,7 @@ abstract class Dvelum_Sitemap_Adapter
      * @param float $priority
      * @return string
      */
-    protected function getItem($url , $lastMod , $modTime = self::CHANGEFREQ_WEEKLY, $priority = 0.8)
+    protected function createItemXML($url , $lastMod , $modTime = self::CHANGEFREQ_WEEKLY, $priority = 0.8)
     {
         return '<url>'
                    .'<loc>' . $this->scheme . $this->host . $url . '</loc>'
@@ -51,7 +64,7 @@ abstract class Dvelum_Sitemap_Adapter
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml.= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-        $xml.= $this->getItems();
+        $xml.= $this->getItemsXML();
         $xml.= '</urlset>';
     }
 
@@ -59,5 +72,5 @@ abstract class Dvelum_Sitemap_Adapter
      * Get Sitemap urlset items
      * @return string
      */
-    abstract protected function getItems();
+    abstract protected function getItemsXML();
 }

@@ -19,7 +19,7 @@ class Dvelum_Backend_Sitemap_Installer extends Externals_Installer
             try{
                 $sitemapPage = new Db_Object('Page');
                 $sitemapPage->setValues(array(
-                    'code'=>'articles',
+                    'code'=>'sitemap',
                     'is_fixed'=>1,
                     'html_title'=>'Sitemap XML',
                     'menu_title'=>'Sitemap XML',
@@ -45,10 +45,10 @@ class Dvelum_Backend_Sitemap_Installer extends Externals_Installer
                 ));
 
                 if(!$sitemapPage->saveVersion(true, false))
-                    throw new Exception('Cannot create articles page');
+                    throw new Exception('Cannot create sitemap page');
 
                 if(!$sitemapPage->publish())
-                    throw new Exception('Cannot publish articles page');
+                    throw new Exception('Cannot publish sitemap page');
 
             }catch (Exception $e){
                 $this->errors[] = $e->getMessage();

@@ -5,10 +5,15 @@ class Dvelum_Sitemap
     protected $url = '/sitemap.xml';
     protected $host = '127.0.0.1';
     protected $scheme = 'http://';
+    /**
+     * @var Router
+     */
+    protected $router;
 
-    public function __construct()
+    public function __construct(Router $router)
     {
         $this->host = Request::server('HTTP_HOST', 'string', '');
+        $this->router = $router;
         if(Request::isHttps()){
             $this->scheme = 'https://';
         }
@@ -30,6 +35,9 @@ class Dvelum_Sitemap
      */
     public function addAdapter($code, Dvelum_Sitemap_Adapter $adapter)
     {
+        $adapter->setRouter($this->router);
+        $adapter->setScheme($this->scheme);
+        $adapter->setHost($this->host);
         $this->adapters[$code] = $adapter;
     }
 
@@ -38,15 +46,17 @@ class Dvelum_Sitemap
      */
     public function getIndexXml()
     {
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
-        $xml.= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>'
+             . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+
         foreach($this->adapters as $code=>$adapter)
         {
             $xml.= '<sitemap>'
-                    . '<loc>'.$this->protocol . $this->url . '/' . $code . '</loc>'
+                    . '<loc>'.$this->scheme.$this->host . $this->url . '/' . $code . '</loc>'
                     . '<lastmod>'.date('Y-m-d').'</lastmod>'
                  . '</sitemap>';
         }
+
         $xml.= '</sitemapindex>';
         return $xml;
     }
@@ -60,7 +70,10 @@ class Dvelum_Sitemap
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml.= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-        $xml.= $this->getItems();
+        if(isset($this->adapters[$code])){
+            $xml.= $this->adapters[$code]->getItemsXML();
+        }
         $xml.= '</urlset>';
+        return $xml;
     }
 }
