@@ -1,0 +1,36 @@
+.dv_article-wrap{
+    padding:10px;
+    width:100%;
+}
+
+.dv_article-wrap .card{
+    border:1px solid #cccccc;
+    min-height:140px;
+    float:left;
+    width:100%;
+    cursor:pointer !important;
+}
+
+.dv_article-wrap .pic{
+    float:left;
+    padding:3px;
+}
+
+.dv_article-wrap .card:hover{
+    background-color: #F5F5F5;
+}
+
+.dv_article-wrap div.title{
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.dv_article-wrap div.tools{
+    float:right;
+}
+
+.dv_article-wrap .tools .modulesBtn{
+    cursor:pointer;
+    float:left;
+    margin:2px;
+}

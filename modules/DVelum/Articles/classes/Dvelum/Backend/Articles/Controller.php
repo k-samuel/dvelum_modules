@@ -81,7 +81,7 @@ class Dvelum_Backend_Articles_Controller extends Backend_Controller_Crud_Vc
                 {
                     if(!empty($v['image']) && isset($images[$v['image']])){
                         $img = $images[$v['image']];
-                        $v['image'] = Model_Medialib::getImgPath($img['path'], $img['ext'], 'icon', true);
+                        $v['image'] = Model_Medialib::getImgPath($img['path'], $img['ext'], 'medium', true);
                     }else{
                         $v['image'] = '';
                     }

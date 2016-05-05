@@ -9,4 +9,5 @@
   7 => 'brief',
   8 => 'tags',
   9 => 'article_page',
+  10 => 'draft',
 ); 
