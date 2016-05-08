@@ -9,7 +9,7 @@
     'icon' => 'resources/dvelum_articles/images/articles.png',
     'id' => 'Dvelum_Articles',
   ),
-  'Dvelum_Articles_Category' =>
+  'Dvelum_Articles_Category' => 
   array (
     'dev' => false,
     'active' => true,

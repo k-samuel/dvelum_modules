@@ -11,7 +11,8 @@ class Dvelum_Backend_Articles_Category_Controller extends Backend_Controller_Cru
         "author_id",
         "editor_id",
         "published",
-        "published_version"
+        "published_version",
+        "last_version"
     ];
 
     protected $_listLinks = [];

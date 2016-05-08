@@ -1,14 +1,24 @@
 .dv_article-wrap{
-    padding:10px;
-    width:100%;
+    padding:2px;
+    border:1px solid #cccccc;
+    height:146px;
+    float:left;
+    cursor:pointer !important;
+    min-width:400px;
+    width:560px;
+    margin-bottom:6px;
+    float:left;
+    white-space:normal;
+
 }
 
-.dv_article-wrap .card{
-    border:1px solid #cccccc;
-    min-height:140px;
-    float:left;
-    width:100%;
-    cursor:pointer !important;
+.dv_article-wrap .x-view-item-focused{
+    background-color: #00a8c6;
+}
+
+
+.dv_article .infoRow{
+    display: inline-block;
 }
 
 .dv_article-wrap .pic{
@@ -22,15 +32,83 @@
 
 .dv_article-wrap div.title{
     font-weight: bold;
-    font-size: 13px;
+    font-size: 16px;
 }
 
-.dv_article-wrap div.tools{
-    float:right;
+.dv_article-wrap div.brief{
+    margin-top: 5px;
 }
 
-.dv_article-wrap .tools .modulesBtn{
-    cursor:pointer;
-    float:left;
-    margin:2px;
+.dv_article-wrap div.headTools{
+    margin-left:4px;
+    font-weight: bold;
+}
+
+.dv_article-wrap .headTools .versions{
+    padding: 2px;
+    display: inline-block;
+    font-weight: normal;
+    border:1px solid #ECEBEA;
+}
+
+.dv_article-wrap .headTools .versions.green{
+    background-color: #00d95a;
+}
+
+.dv_article-wrap .headTools .versions.yellow{
+    background-color: #FFFCC5;
+}
+
+
+.dv_article-wrap div.content{
+    min-height: 100px;
+}
+
+
+.dv_article-wrap div.bottomTools{
+    height:20px;
+    margin: 0px 50px 5px 0px;
+    float: right;
+}
+
+
+div.dv_article-target{
+    padding:10px;
+}
+
+.dv_article-wrap div.actionBtn {
+    clear: both;
+    border: 1px solid #cccccc;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    display: inline-block;
+    float: right;
+    font-size: 10px;
+    line-height: 18px;
+    margin: 5px 2px 2px 2px;
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    color: #cccccc;
+    cursor: pointer;
+}
+
+.dv_article-wrap div.actionBtn:hover {
+    background-color: #ffffff;
+    background-image: linear-gradient(#ffffff, #E4F2F9);
+    -webkit-box-shadow: 0 0 4px #ccc;
+    -moz-box-shadow: 0 0 4px #ccc;
+    box-shadow: 0 0 4px #ccc;
+}
+
+.dv_article-wrap div.actionBtn img{
+    margin: 0px 5px 0px 0px;
+    vertical-align: middle;
+}
+.dv_article-wrap div.actionBtn span.label{
+    vertical-align: middle;
+    color:#000;
 }

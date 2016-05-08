@@ -19,7 +19,9 @@ class Dvelum_Backend_Articles_Controller extends Backend_Controller_Crud_Vc
         "author_id",
         "editor_id",
         "published",
-        "published_version"
+        "brief",
+        "published_version",
+        "last_version"
     ];
 
     protected $_listLinks = [
@@ -89,5 +91,56 @@ class Dvelum_Backend_Articles_Controller extends Backend_Controller_Crud_Vc
             }
         }
         return $data;
+    }
+
+    /**
+     * Save article on drop event
+     */
+    public function dropAction()
+    {
+        $this->_checkCanEdit();
+        $this->_checkCanPublish();
+
+        $id = Request::post('id', Filter::FILTER_INTEGER, false);
+        $published = Request::post('published', Filter::FILTER_BOOLEAN, false);
+
+        try{
+            $article = Db_Object::factory('dvelum_article', $id);
+        }catch (Exception $e){
+            Response::jsonError($this->_lang->get('WRONG_REQUEST'));
+        }
+
+        $this->_checkOwner($article);
+
+        $acl = $article->getAcl();
+        if($acl && !$acl->canPublish($article))
+            Response::jsonError($this->_lang->CANT_PUBLISH);
+
+        if($published)
+        {
+            $versionControlModel = Model::factory('Vc');
+            $version = $versionControlModel->getLastVersion($this->_objectName , $id);
+
+            if(!$article->publish($version)){
+                Response::jsonError($this->_lang->get('CANT_EXEC'));
+            }
+
+            Response::jsonSuccess(['published_version'=>$version]);
+        }else{
+            if(!$article->unpublish()){
+                Response::jsonError($this->_lang->get('CANT_EXEC'));
+            }
+            Response::jsonSuccess(['published_version'=>0]);
+        }
+    }
+
+    /**
+     * Get list of categories for combobox filter
+     */
+    public function categoriesAction()
+    {
+        $model = Model::factory('dvelum_article_category');
+        $list = $model->getList(['sort'=>'title','dir'=>'ASC'],false,['id','title']);
+        Response::jsonSuccess($list);
     }
 }
