@@ -69,6 +69,11 @@ class Dvelum_Backend_Articles_Controller extends Backend_Controller_Crud_Vc
         if(empty($data))
             return [];
 
+        $routerClass =  $this->_configMain->get('frontend_router');
+        $router = new $routerClass();
+
+        $stagingUrl = $router->findUrl('dvelum_articles_item');
+
         $imageIds = Utils::fetchCol('image', $data['data']);
 
         if(!empty($imageIds))
@@ -87,6 +92,8 @@ class Dvelum_Backend_Articles_Controller extends Backend_Controller_Crud_Vc
                     }else{
                         $v['image'] = '';
                     }
+
+                    $v['staging_url'] = Request::url([$stagingUrl,$v['url']]);
                 }
             }
         }
