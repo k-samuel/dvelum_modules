@@ -1,0 +1,42 @@
+.dv_article .pic.article img{width:100%}
+.dv_article .clear{clear:both;}
+.dv_article .clear.empty{height:10px}
+
+.dv_article .articleBody p{font-size: 18px;  color:#000;}
+
+.dv_article  ul.relatedArticles {list-style: none; padding: 0; margin: 0;}
+.dv_article .relatedArticles li {clear: both;padding:4px;}
+.dv_article .relatedArticles li a {text-decoration: none; color:#000000;}
+.dv_article .relatedArticles .title {font-size: 16px;font-weight: bold;}
+.dv_article .relatedArticles a .title:hover {color: #1D5BB2; font-size: 16px;font-weight: bold;}
+
+.dv_article .relatedArticles .brief {font-size: 14px;font-weight: normal;}
+
+.dv_article .relatedArticles .pic{float:left; padding:5px;}
+.dv_article .relatedArticles .pic img{float:left; border:1px solid #ccc;}
+
+.dv_article div.sep{height:5px;border-bottom:1px solid #D5D5D5;clear:both;width:100%;}
+
+.dv_article .date, .dv_article .categoryLink a{color: #959595;  font-size: 12px;  font-weight: normal;  line-height: 20px;  white-space: nowrap; text-decoration: none}
+
+
+/* Article Cards*/
+.dv_article .articleCards .item{
+    border:1px solid #cccccc;
+    height:370px;
+    cursor:pointer !important;
+    width:300px;
+    margin:4px;
+    white-space:normal;
+    float:left;
+    background-color: #ffffff;
+    box-shadow:0 0 8px 2px #ccc;
+}
+.dv_article .articleCards .item .content{min-height: 100px;  padding:4px;}
+.dv_article .articleCards .item a{text-decoration: none;}
+.dv_article .articleCards .item a .title:hover {color: #1D5BB2;}
+.dv_article .articleCards .item .pic img{width:100%;  }
+.dv_article .articleCards .item .title{color:#000; font-weight: bold;  font-size: 16px;}
+.dv_article .articleCards .item .brief{margin-top: 5px;  overflow: hidden;  max-height: 86px;}
+.dv_article .articleCards .item .sign{padding:4px 0px 4px;}
+

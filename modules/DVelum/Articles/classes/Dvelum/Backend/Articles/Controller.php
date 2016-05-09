@@ -52,7 +52,7 @@ class Dvelum_Backend_Articles_Controller extends Backend_Controller_Crud_Vc
         $routerClass =  $this->_configMain->get('frontend_router');
         $router = new $routerClass();
 
-        $stagingUrl = $router->findUrl(strtolower('articles_item'));
+        $stagingUrl = $router->findUrl(strtolower('dvelum_articles_item'));
 
         if(!strlen($stagingUrl))
             return Request::url(array('404'));
@@ -63,40 +63,27 @@ class Dvelum_Backend_Articles_Controller extends Backend_Controller_Crud_Vc
     protected function _getList()
     {
         $data =  parent::_getList();
-
-        $mediaModel = Model::factory('Medialib');
+        /**
+         * @var Model_Dvelum_Article
+         */
+        $articleModel = Model::factory('Dvelum_Article');
 
         if(empty($data))
             return [];
 
+        $list = $data['data'];
+        $list = $articleModel->addImagePaths($list, 'medium', 'image');
+
         $routerClass =  $this->_configMain->get('frontend_router');
         $router = new $routerClass();
-
         $stagingUrl = $router->findUrl('dvelum_articles_item');
 
-        $imageIds = Utils::fetchCol('image', $data['data']);
+        foreach($list as $k=>&$v) {
+            $v['staging_url'] = Request::url([$stagingUrl, $v['url']]);
+        }unset($v);
 
-        if(!empty($imageIds))
-        {
-            $images = $mediaModel->getList(false,['id'=>$imageIds],['id','path','ext']);
+        $data['data'] = $list;
 
-            if(!empty($images))
-            {
-                $images = Utils::rekey('id', $images);
-
-                foreach($data['data'] as $k => &$v)
-                {
-                    if(!empty($v['image']) && isset($images[$v['image']])){
-                        $img = $images[$v['image']];
-                        $v['image'] = Model_Medialib::getImgPath($img['path'], $img['ext'], 'medium', true);
-                    }else{
-                        $v['image'] = '';
-                    }
-
-                    $v['staging_url'] = Request::url([$stagingUrl,$v['url']]);
-                }
-            }
-        }
         return $data;
     }
 

@@ -109,22 +109,6 @@
       'db_default' => false,
       'db_unsigned' => true,
     ),
-    'related_category' => 
-    array (
-      'type' => 'link',
-      'unique' => '',
-      'db_isNull' => false,
-      'required' => false,
-      'validator' => '',
-      'link_config' => 
-      array (
-        'link_type' => 'multy',
-        'object' => 'dvelum_article_category',
-        'relations_type' => 'many_to_many',
-      ),
-      'db_type' => 'longtext',
-      'db_default' => '',
-    ),
     'tags' => 
     array (
       'type' => '',

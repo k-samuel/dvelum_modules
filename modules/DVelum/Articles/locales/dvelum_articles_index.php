@@ -10,4 +10,5 @@
   8 => 'tags',
   9 => 'article_page',
   10 => 'draft',
+  11 => 'more_articles',
 ); 
