@@ -45,6 +45,7 @@ class Model_Dvelum_Article extends Model
             )
             ->where('main_category =?', $categoryId)
             ->where('date_published < ?', $dataPublished)
+            ->where('id !=?',$articleId)
             ->where('published = 1')
             ->order('date_published DESC')
             ->limit($count);
