@@ -11,4 +11,5 @@
   'article_page' => 'Страница статьи',
   'draft' => 'Черновики',
   'more_articles' => 'Еще статьи',
+  'article_categories' => 'Рубрики статей',
 ); 

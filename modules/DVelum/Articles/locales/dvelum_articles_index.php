@@ -11,4 +11,5 @@
   9 => 'article_page',
   10 => 'draft',
   11 => 'more_articles',
+  12 => 'article_categories',
 ); 
