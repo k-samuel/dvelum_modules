@@ -2,7 +2,7 @@
 $data = $this->get('data');
 $relatedArticles = $this->get('related_articles');
 $page = $this->get('page');
-$lang = $this->get('lang');
+
 $categoryInfo = $this->get('category_info');
 
 $categoryLink = '';
@@ -13,48 +13,31 @@ if(!empty($categoryInfo) && $categoryInfo['published']){
 
 ?>
 <div class="dv_article">
-        <div>
-            <span class="date"><?php echo date($this->get('date_format'), strtotime($data['date_published']))?></span>
-            <?php echo $categoryLink;?>
-        </div>
-
-        <div class="sep"></div>
-        <?php
+        <article>
+            <h1><?php echo $page->page_title;?></h1>
+            <div>
+                <span class="date"><?php echo date($this->get('date_format'), strtotime($data['date_published']))?></span>
+                <?php echo $categoryLink;?>
+            </div>
+            <?php
             if(!empty($data['image']))
-            echo '<div class="pic article"><img itemprop="image" src="'.$data['image'].'"/></a></div>';
-        ?>
-        <div class="articleBody" itemprop="articleBody">
-            <?php echo $data['text']; ?>
-        </div>
-        <div class="clear empty"></div><br>
+                echo '<div class="pic article"><img itemprop="image" src="'.$data['image'].'"/></a></div>';
+            ?>
+            <div class="articleBody">
+                <?php echo $data['text']; ?>
+            </div>
+
+        </article>
+        <div class="clear empty"></div>
     <div class="sep"></div>
     <div class="clear empty"></div>
-<?php
-if(!empty($relatedArticles)){
-?>
-    <strong><?php $lang->get('more_articles');?></strong>
-    <div class="clear empty"></div>
-    <ul class="relatedArticles">
-        <?php
-        foreach($relatedArticles as $article)
-        {
-            echo '<li class="item">';
+    <?php
+    if(!empty($relatedArticles)){
 
-            if(!empty($article['image'])){
-                echo '<div class="pic"><a href="'.$article['url'].'"><img src="'.$article['image'].'"/></a></div>';
-            }
-
-            echo '<div class="content">'
-                    . '<a href="'.$article['url'].'"><div class="title">'.$article['title'].'</div></a>'
-                    . '<div class="brief">'.$article['brief'].'</div>'
-                 .'</div>';
-
-
-            echo '</a></li>';
-        }
-        ?>
-    </ul>
-    <div class="clear empty"></div>
-<?php
-}?>
+        $template = new Template();
+        $template->disableCache();
+        $template->set('lang', $this->get('lang'));
+        $template->set('list', $relatedArticles);
+        echo $template->render('dvelum_articles/related_articles.php');
+    }?>
 </div>

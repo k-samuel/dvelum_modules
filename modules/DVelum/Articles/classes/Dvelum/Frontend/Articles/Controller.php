@@ -60,7 +60,7 @@ class Dvelum_Frontend_Articles_Controller extends Frontend_Controller
             $page = 1;
 
         $count = $this->articleModel->getPublishedCount($category['id']);
-
+        $articles = [];
         if($count)
         {
             $articles = $this->articleModel->getTop(
