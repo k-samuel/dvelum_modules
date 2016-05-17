@@ -32,7 +32,7 @@ echo '<div class="clear empty"></div>';
 
             $image = '';
             if(!empty($article['image']) && !empty($article['image'])){
-                $image = '<div class="pic"><img src="'.$article['image'].'" title="'.$article['title'].'"></div><div class="clear"></div>';
+                $image = '<div class="pic"><a href="'.$article['url'].'"><img src="'.$article['image'].'" title="'.$article['title'].'"></a></div><div class="clear"></div>';
             }
 
             echo   '<div class="item">',
