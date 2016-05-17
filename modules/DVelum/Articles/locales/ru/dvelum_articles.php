@@ -12,4 +12,5 @@
   'draft' => 'Черновики',
   'more_articles' => 'Еще статьи',
   'article_categories' => 'Рубрики статей',
+  'see_more' => 'Смотреть еще',
 ); 

@@ -12,4 +12,5 @@
   'draft' => 'Draft',
   'more_articles' => 'More Articles',
   'article_categories' => 'Article Categories',
+  'see_more' => 'See more',
 ); 

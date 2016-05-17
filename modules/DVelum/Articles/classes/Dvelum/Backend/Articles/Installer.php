@@ -10,6 +10,31 @@ class Dvelum_Backend_Articles_Installer extends Externals_Installer
     public function install(Config_Abstract $applicationConfig, Config_Abstract $moduleConfig)
     {
         Lang::addDictionaryLoader('dvelum_articles', $applicationConfig->get('language').'/dvelum_articles.php', Config::File_Array);
+
+        // Add article pages and blocks
+        if(!$this->addPages() || !$this->addBlocks()){
+            return false;
+        }
+        // Add permissions
+        $userInfo = User::getInstance()->getInfo();
+        $permissionsModel = Model::factory('Permissions');
+        if(!$permissionsModel->setGroupPermissions($userInfo['group_id'], 'Dvelum_Articles' , 1 , 1 , 1 , 1)){
+            return false;
+        }
+        if(!$permissionsModel->setGroupPermissions($userInfo['group_id'], 'Dvelum_Articles_Category' , 1 , 1 , 1 , 1)){
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Add article pages
+     * @return bool
+     * @throws Exception
+     */
+    protected function addPages()
+    {
         $userId = User::getInstance()->getId();
         $lang = Lang::lang('dvelum_articles');
 
@@ -62,7 +87,7 @@ class Dvelum_Backend_Articles_Installer extends Externals_Installer
             $articlesPageId = $articlesPageItem['id'];
         }
 
-        $pageItem = $pagesModel->getList(false,['func_code' => 'dvelum_articles_item']);;
+        $pageItem = $pagesModel->getList(false,['func_code' => 'dvelum_articles_item']);
         if(empty($pageItem))
         {
             try{
@@ -105,15 +130,40 @@ class Dvelum_Backend_Articles_Installer extends Externals_Installer
             }
         }
 
-        // Add permissions
-        $userInfo = User::getInstance()->getInfo();
-        $permissionsModel = Model::factory('Permissions');
-        if(!$permissionsModel->setGroupPermissions($userInfo['group_id'], 'Dvelum_Articles' , 1 , 1 , 1 , 1)){
+        return true;
+    }
+
+    /**
+     * Create page blocks
+     */
+    protected function addBlocks()
+    {
+        $articleBlock = Model::factory('Blocks')->getCount(['sys_name' => 'Block_Dvelum_Articles']);
+
+        if($articleBlock)
+            return true;
+
+        try{
+            $articleBlock = Db_Object::factory('Blocks');
+            $articleBlock->setValues([
+                'is_menu' => false,
+                'is_system' => true,
+                'show_title' => true,
+                'sys_name' => 'Block_Dvelum_Articles',
+                'title' => Lang::lang('dvelum_articles')->get('articles')
+            ]);
+
+            if(!$articleBlock->saveVersion(true, false))
+                throw new Exception('Cannot create article block');
+
+            if(!$articleBlock->publish())
+                throw new Exception('Cannot publish article block');
+
+        }catch (Exception $e){
+            $this->errors[] = $e->getMessage();
             return false;
         }
-        if(!$permissionsModel->setGroupPermissions($userInfo['group_id'], 'Dvelum_Articles_Category' , 1 , 1 , 1 , 1)){
-            return false;
-        }
+        return true;
     }
 
     /**
