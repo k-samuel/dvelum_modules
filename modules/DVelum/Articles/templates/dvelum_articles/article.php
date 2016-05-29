@@ -13,7 +13,7 @@ if(!empty($categoryInfo) && $categoryInfo['published']){
 
 ?>
 <div class="dv_article">
-        <article>
+        <article class="article">
             <h1><?php echo $page->page_title;?></h1>
             <div>
                 <span class="date"><?php echo date($this->get('date_format'), strtotime($data['date_published']))?></span>

@@ -13,4 +13,6 @@
   11 => 'more_articles',
   12 => 'article_categories',
   13 => 'see_more',
+  14 => 'test_category',
+  15 => 'test_article',
 ); 

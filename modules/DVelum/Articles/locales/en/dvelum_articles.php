@@ -13,4 +13,6 @@
   'more_articles' => 'More Articles',
   'article_categories' => 'Article Categories',
   'see_more' => 'See more',
+  'test_category' => 'Test Category',
+  'test_article' => 'Test Article',
 ); 

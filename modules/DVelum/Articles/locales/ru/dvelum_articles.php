@@ -13,4 +13,6 @@
   'more_articles' => 'Еще статьи',
   'article_categories' => 'Рубрики статей',
   'see_more' => 'Смотреть еще',
+  'test_category' => 'Тестовая рубрика',
+  'test_article' => 'Тестовая Статья',
 ); 

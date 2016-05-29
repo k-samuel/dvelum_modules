@@ -15,6 +15,7 @@ class Dvelum_Backend_Articles_Installer extends Externals_Installer
         if(!$this->addPages() || !$this->addBlocks()){
             return false;
         }
+
         // Add permissions
         $userInfo = User::getInstance()->getInfo();
         $permissionsModel = Model::factory('Permissions');
@@ -22,6 +23,9 @@ class Dvelum_Backend_Articles_Installer extends Externals_Installer
             return false;
         }
         if(!$permissionsModel->setGroupPermissions($userInfo['group_id'], 'Dvelum_Articles_Category' , 1 , 1 , 1 , 1)){
+            return false;
+        }
+        if(!$this->addCategory() || !$this->addArticle()){
             return false;
         }
 
@@ -129,7 +133,73 @@ class Dvelum_Backend_Articles_Installer extends Externals_Installer
                 return false;
             }
         }
+        return true;
+    }
 
+    /**
+     * Add test category
+     */
+    protected function addCategory()
+    {
+        $lang = Lang::lang('dvelum_articles');
+        $categoryModel = Model::factory('Dvelum_Article_Category');
+
+        if($categoryModel->getCount(['url'=>'test_category']))
+            return true;
+
+        try{
+            $category = Db_Object::factory('Dvelum_Article_Category');
+            $category->setValues([
+                'url' => 'test_category',
+                'title' => $lang->get('test_category')
+            ]);
+            if(!$category->saveVersion(true, false))
+                throw new Exception('Cannot add test category');
+
+            if(!$category->publish())
+                throw new Exception('Cannot publish test category');
+
+        }catch (Exception $e){
+            $this->errors[] = $e->getMessage();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Add test article
+     */
+    protected function addArticle()
+    {
+        $lang = Lang::lang('dvelum_articles');
+        $articleModel = Model::factory('Dvelum_Article');
+        $categoryModel = Model::factory('Dvelum_Article_Category');
+        $catInfo = $categoryModel->getItemByUniqueField('url','test_category');
+
+        if($articleModel->getCount(['url'=>'test_article']))
+            return true;
+
+        try{
+            $article = Db_Object::factory('Dvelum_Article');
+            $article->setValues([
+                'url' => 'test_category',
+                'title' => $lang->get('test_article'),
+                'brief' => 'DVelum is a quick development platform based on ExtJS framework and PHP + MySQL on the server side. The platform opportunities allow to create a ready-to-go application in minutes without using complex XML configuration files, all settings being adjusted in visual interfaces. Automatically generated interfaces are easy to modify with the help of built-in layout designer.',
+                'allow_comments' => true,
+                'main_category' => $catInfo['id'],
+                'text' => $lang->get('test_article').'...'
+            ]);
+
+            if(!$article->saveVersion(true, false))
+                throw new Exception('Cannot add test article');
+
+            if(!$article->publish())
+                throw new Exception('Cannot publish test article');
+
+        }catch (Exception $e){
+            $this->errors[] = $e->getMessage();
+            return false;
+        }
         return true;
     }
 
