@@ -2,76 +2,98 @@
   'table' => 'dvelum_comment_resource',
   'engine' => 'InnoDB',
   'connection' => 'default',
-  'acl' => false,
-  'parent_object' => '',
   'rev_control' => false,
-  'save_history' => false,
-  'link_title' => '',
+  'save_history' => true,
+  'link_title' => 'name',
   'disable_keys' => false,
   'readonly' => false,
   'locked' => false,
   'primary_key' => 'id',
   'use_db_prefix' => true,
-  'slave_connection' => 'default',
-  'log_detalization' => 'default',
-  'fields' => 
+  'system' => false,
+  'fields' =>
   array (
-    'comment_id' => 
-    array (
-      'type' => 'link',
-      'unique' => '',
-      'db_isNull' => false,
-      'required' => true,
-      'validator' => '',
-      'link_config' => 
-      array (
-        'link_type' => 'object',
-        'object' => 'dvelum_comment',
-      ),
-      'db_type' => 'bigint',
-      'db_default' => false,
-      'db_unsigned' => true,
-    ),
-    'path' => 
+    'path' =>
     array (
       'type' => '',
       'unique' => '',
       'db_isNull' => false,
       'required' => true,
       'validator' => '',
-      'db_type' => 'text',
-      'db_default' => false,
-      'is_search' => false,
-      'allow_html' => true,
+      'db_type' => 'varchar',
+      'db_default' => '',
+      'db_len' => 255,
+      'is_search' => true,
+      'allow_html' => false,
     ),
-    'resource_type' => 
+    'date' =>
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => false,
+      'required' => true,
+      'validator' => '',
+      'db_type' => 'datetime',
+      'db_default' => false,
+    ),
+    'ext' =>
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => false,
+      'required' => true,
+      'validator' => '',
+      'db_type' => 'varchar',
+      'db_default' => '',
+      'db_len' => 10,
+      'is_search' => false,
+      'allow_html' => false,
+    ),
+    'size' =>
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => false,
+      'required' => true,
+      'validator' => '',
+      'db_type' => 'decimal',
+      'db_default' => 0,
+      'db_unsigned' => true,
+      'db_scale' => 12,
+      'db_precision' => 3,
+    ),
+    'user_id' =>
     array (
       'type' => 'link',
       'unique' => '',
       'db_isNull' => false,
       'required' => true,
       'validator' => '',
-      'link_config' => 
+      'link_config' =>
       array (
-        'link_type' => 'dictionary',
-        'object' => 'dvelum_comment_resource',
+        'link_type' => 'object',
+        'object' => 'user',
       ),
-      'db_type' => 'varchar',
-      'db_len' => 255,
+      'db_type' => 'bigint',
       'db_default' => false,
+      'db_unsigned' => true,
     ),
-  ),
-  'indexes' => 
-  array (
-    'comment_id' => 
+    'name' =>
     array (
-      'columns' => 
-      array (
-        0 => 'comment_id',
-      ),
-      'unique' => false,
-      'fulltext' => false,
-      'PRIMARY' => false,
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => false,
+      'required' => false,
+      'validator' => '',
+      'db_type' => 'varchar',
+      'db_default' => '',
+      'db_len' => 255,
+      'is_search' => true,
+      'allow_html' => false,
     ),
   ),
-); 
+  'indexes' =>
+  array (
+  ),
+  'acl' => false,
+);

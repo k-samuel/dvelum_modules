@@ -96,6 +96,22 @@
       'is_search' => false,
       'allow_html' => false,
     ),
+    'resources' => 
+    array (
+      'type' => 'link',
+      'unique' => '',
+      'db_isNull' => false,
+      'required' => false,
+      'validator' => '',
+      'link_config' => 
+      array (
+        'link_type' => 'multy',
+        'object' => 'dvelum_comment_resource',
+        'relations_type' => 'many_to_many',
+      ),
+      'db_type' => 'longtext',
+      'db_default' => '',
+    ),
   ),
   'indexes' => 
   array (
