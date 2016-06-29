@@ -30,6 +30,7 @@ class Trigger_Dvelum_Article extends Trigger
         $this->_cache->remove($model->getCacheKey(['item', 'url', $object->url]));
 
         $model->resetRelatedCache($object->getId());
+        $model->resetRelationsCache($object->getId());
         $model->resetTopCache($object->get('main_category'));
         $model->resetTopCache(false);
         $model->resetPublishedCount();

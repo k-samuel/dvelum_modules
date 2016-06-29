@@ -52,8 +52,15 @@ class Model_Dvelum_Article extends Model
 
         $data = $this->_db->fetchAll($sql);
 
-        if($this->_cache)
+        if($this->_cache){
             $this->_cache->save($data , $cacheKey);
+            $list = [];
+            if(!empty($data)){
+                $list = Utils::fetchCol('id', $data);
+            }
+            $this->saveRelationsCache($articleId , $list);
+        }
+
 
         return $data;
     }
@@ -76,7 +83,7 @@ class Model_Dvelum_Article extends Model
 
         if(!empty($imageIds))
         {
-            $images = $mediaModel->getList(false,['id'=>$imageIds],['id','path','ext']);
+            $images = $mediaModel->getList(false,['id'=>$imageIds],['id','path','ext'], true);
 
             if(!empty($images))
             {
@@ -182,6 +189,9 @@ class Model_Dvelum_Article extends Model
      */
     public function getTop($categoryId = false, $count = 10 , $offset = 0, $imageSize = 'thumbnail')
     {
+        $count = intval($count);
+        $offset = intval($offset);
+
         $pager = [
             'sort'=>'date_published',
             'dir'=>'DESC',
@@ -257,4 +267,51 @@ class Model_Dvelum_Article extends Model
         return $data;
     }
 
+    /**
+     * Save cache of article relations
+     * @param integer $articleId
+     * @param array $relatedArticles
+     */
+    public function saveRelationsCache($articleId, array $relatedArticles)
+    {
+        if(!$this->_cache)
+            return;
+
+        foreach($relatedArticles as $id)
+        {
+            $relationKey = $this->getCacheKey(['article_related_to',$id]);
+            $relations = $this->_cache->load($relationKey);
+
+            if(empty($relations) || !is_array($relations))
+                $relations = [];
+
+            if(!in_array($articleId, $relations, true))
+                $relations[] = $articleId;
+
+            $this->_cache->save($relations, $relationKey);
+        }
+    }
+
+    /**
+     * Reset Related Articles cache which contains articleId
+     * @param $articleId
+     */
+    public function resetRelationsCache($articleId)
+    {
+        if(!$this->_cache)
+            return;
+
+        $relationKey = $this->getCacheKey(['article_related_to',$articleId]);
+        $relations = $this->_cache->load($relationKey);
+
+        if(!empty($relations)){
+            foreach($relations as $id){
+                $cacheKey =  $this->getCacheKey([
+                    'related_articles',
+                    $id,
+                ]);
+                $this->_cache->remove($cacheKey);
+            }
+        }
+    }
 }
