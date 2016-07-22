@@ -1,5 +1,5 @@
 <?php
-namespace Dvelum\Scheduler;
+namespace Dvelum\Schedule;
 
 abstract class Queue
 {

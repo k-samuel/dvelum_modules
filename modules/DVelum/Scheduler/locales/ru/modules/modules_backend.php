@@ -1,3 +1,3 @@
 <?php return array (
-    'Dvelum_Scheduler' => 'Планировщик',
+    'Dvelum_Schedule' => 'Планировщик',
 ); 

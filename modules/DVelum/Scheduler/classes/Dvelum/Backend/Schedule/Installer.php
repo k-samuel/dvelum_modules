@@ -1,5 +1,5 @@
 <?php
-class Dvelum_Backend_Scheduler_Installer extends Externals_Installer
+class Dvelum_Backend_Schedule_Installer extends Externals_Installer
 {
     /**
      * Install

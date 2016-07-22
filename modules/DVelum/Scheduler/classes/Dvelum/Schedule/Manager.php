@@ -1,5 +1,5 @@
 <?php
-namespace Dvelum\Scheduler;
+namespace Dvelum\Schedule;
 
 class Manager
 {

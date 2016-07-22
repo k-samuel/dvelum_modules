@@ -11,5 +11,5 @@ return [
     'autoloader'=> [
         './classes'
     ],
-    'post-install'=>'Dvelum_Backend_Scheduler_Installer'
+    'post-install'=>'Dvelum_Backend_Schedule_Installer'
 ];
