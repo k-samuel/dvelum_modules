@@ -27,6 +27,7 @@
       'errors' => 'Errors',
       'last_launch' => 'Last Launch',
       'starts' => 'Starts',
+      'instances' => 'Number of instances',
     ),
   ),
 ); 

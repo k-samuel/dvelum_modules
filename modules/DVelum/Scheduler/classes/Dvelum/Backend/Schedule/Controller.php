@@ -1,7 +1,7 @@
 <?php 
 class Dvelum_Backend_Schedule_Controller extends Backend_Controller_Crud
 {
-    protected $_listFields = ["title","type","enabled","last_run","launches","errors","id"];
+    protected $_listFields = ["title","type","enabled","last_launch","starts","errors","id"];
     protected $_listLinks = [];
     protected $_canViewObjects = [""];
 
