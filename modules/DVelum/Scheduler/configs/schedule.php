@@ -5,6 +5,4 @@ return [
   'distributed' => false,
   //Queue adapter for distributed execution Mysql/RabbitMq
   'queue' => 'Mysql',
-  //Skip queued tasks (no doubles in queue)
-  'skip_queued' => true
 ];
