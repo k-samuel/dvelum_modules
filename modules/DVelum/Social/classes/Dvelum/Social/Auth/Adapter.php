@@ -111,6 +111,12 @@ abstract class Adapter
         return $userInfo;
     }
 
+//    public function getAuthUrl()
+//    {
+//        $params = $this->prepareAuthParams();
+//        return $result = $params['auth_url'] . '?' . urldecode(http_build_query($params['auth_params']));
+//    }
+
     abstract protected function requestInfo();
 }
 

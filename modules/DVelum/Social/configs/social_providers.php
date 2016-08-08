@@ -15,6 +15,7 @@ return [
         'settings'=>[
             'auth_url' =>'https://www.facebook.com/dialog/oauth',
             'access_token' => 'https://graph.facebook.com/oauth/access_token',
+            'user_info_url' => 'https://graph.facebook.com/me',
             'auth_params'   =>  [
                 'response_type' => 'code',
                 'scope'         => 'email,user_birthday',
@@ -33,7 +34,7 @@ return [
         'settings'=>[
             'auth_url' =>'http://oauth.vk.com/authorize',
             'access_token'=>'https://api.vkontakte.ru/oauth/access_token',
-            'user_info' => 'https://api.vk.com/method/users.get',
+            'user_info_url' => 'https://api.vk.com/method/users.get',
             'auth_params'   =>  [
                 'response_type' => 'code',
                 'scope'         => 'notify',
@@ -53,6 +54,9 @@ return [
         ],
         'settings'=>[
             'auth_url' =>'https://oauth.yandex.ru/authorize',
+            'access_token' =>'https://oauth.yandex.ru/token',
+            'grant_type'=>'authorization_code',
+            'user_info_url' =>'https://login.yandex.ru/info',
             'auth_params'=>[
                 'response_type' => 'code',
                 'display'         => 'popup'
@@ -72,6 +76,9 @@ return [
         ],
         'settings'=>[
             'auth_url' =>'https://accounts.google.com/o/oauth2/auth',
+            'access_token' => 'https://accounts.google.com/o/oauth2/token',
+            'user_info_url' => 'https://www.googleapis.com/oauth2/v1/userinfo',
+            'grant_type'=>'authorization_code',
             'auth_params'=>[
                 'response_type' => 'code',
                 'scope'         => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
@@ -92,6 +99,8 @@ return [
         'settings'=>[
             'auth_url' =>'http://www.odnoklassniki.ru/oauth/authorize',
             'access_token' => 'http://api.odnoklassniki.ru/oauth/token.do',
+            'grant_type' =>'authorization_code',
+            'user_info_url' => 'http://api.odnoklassniki.ru/fb.do',
             'auth_params'=>[
                 'response_type' => 'code',
             ]
@@ -111,6 +120,8 @@ return [
         'settings'=>[
             'auth_url' =>'https://connect.mail.ru/oauth/authorize',
             'access_token' => 'https://connect.mail.ru/oauth/token',
+            'user_info_url'=> 'http://www.appsmail.ru/platform/api',
+            'grant_type' =>'authorization_code',
             'auth_params'=>[
                 'response_type' => 'code',
             ]
@@ -131,7 +142,7 @@ return [
             'auth_url' =>'https://api.twitter.com/oauth/authenticate',
             'access_token' => 'https://api.twitter.com/oauth/access_token',
             'request_token' => 'https://api.twitter.com/oauth/request_token',
-            'account_data'=>'https://api.twitter.com/1.1/users/show.json',
+            'user_info_url'=>'https://api.twitter.com/1.1/users/show.json',
             'auth_params'=>[
                 'response_type' => 'code',
             ]

@@ -7,7 +7,19 @@ class Google extends Adapter
 {
     protected function requestInfo()
     {
+        $params = $this->options;
+        $params['grant_type'] = $this->settings['grant_type'];
 
+        $tokenInfo = $this->request($this->settings['access_token'], ['data' => $params]);
+
+        if (isset($tokenInfo['access_token'])) {
+                $params['access_token'] = $tokenInfo['access_token'];
+                $userInfo = $this->request($this->settings['user_info_url'], $params);
+                if (isset($userInfo['id'])) {
+                    return $userInfo;
+                }
+        }
+        return false;
     }
 
     protected function processInfo($responseInfo)

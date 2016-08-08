@@ -7,7 +7,7 @@ return [
 
     ],
     'twitter' =>[
-
+        'client_id' =>'',
     ],
     'vk' =>[
         'client_id'     => '',
