@@ -76,6 +76,7 @@ class Dvelum_Frontend_Articles_Item_Controller extends Frontend_Controller
         $this->_page->setOgProperty('title', $data['title']);
         $this->_page->setOgProperty('url', $pageUrl);
         $this->_page->setOgProperty('description', $data['brief']);
+        $this->_page->setOgProperty('type', 'article');
 
 
         // Get article main category
