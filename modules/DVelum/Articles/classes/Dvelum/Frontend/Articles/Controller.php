@@ -101,6 +101,7 @@ class Dvelum_Frontend_Articles_Controller extends Frontend_Controller
             'pager' => $pager,
             'category' => $category,
             'cat_list' => $categories,
+            'date_format' => $this->config->get('date_format'),
         ));
 
 
