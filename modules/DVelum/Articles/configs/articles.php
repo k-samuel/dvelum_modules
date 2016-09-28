@@ -13,4 +13,6 @@ return [
     // Articles block
     'block_count' => 3,
     'block_image_size' => 'thumbnail',
+    // Comments template
+    'comments_tpl'=>''
 ];

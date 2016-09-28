@@ -141,15 +141,13 @@ class Dvelum_Frontend_Articles_Item_Controller extends Frontend_Controller
         $this->_page->text.= $template->render('dvelum_articles/article.php');
 
 
-        if(isset($data['allow_comments']) && $data['allow_comments'])
+        if(isset($data['allow_comments']) && $data['allow_comments'] && $this->config['comments_tpl'])
         {
-//            $commentsTemplate = new Template();
-//            $commentsTemplate->setData(array(
-//                'xid' => Model_Hypercomments::PREFIX_ARTICLE.'-'.$data['id'],
-//                'url' => $pageUrl,
-//                'title' => $data['title'],
-//            ));
-//            $this->_page->text.=  $commentsTemplate->render(Application::getTemplatesPath() . 'hypercomments.php');
+            $cTemplate = new Template([
+                'itemUrl' => $itemUrl,
+                'itemId'  => $data['id']
+            ]);
+            $this->_page->text.=  $cTemplate->render($this->config['comments_tpl']);
         }
     }
 }
