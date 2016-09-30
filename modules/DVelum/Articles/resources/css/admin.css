@@ -42,6 +42,7 @@
     font-size: 16px;
     max-height: 36px;
     overflow: hidden;
+    margin:4px 0px 0px 0px;
 }
 
 .dv_article-wrap div.brief{

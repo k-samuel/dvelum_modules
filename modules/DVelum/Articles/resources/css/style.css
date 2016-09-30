@@ -44,3 +44,6 @@ div.dv_article{width:100%;}
 .dv_article.block.article  a:hover{color:#3b93c0;}
 .dv_article.block.article .item .date{color: #959595;  font-size: 12px;  font-weight: normal;  line-height: 20px;  margin: 0;  padding: 0;  white-space: nowrap;  }
 .dv_article.block.article .showMore{float: right; font-weight: normal;}
+
+.dv_article .articleBody p{  margin: 0px 0px 10px 0px;  }
+.dv_article .articleBody ul, .dv_article .articleBody ol{  margin: 10px 0px 10px 10px;  transform: translateX(1.5em);padding-right:10px;}
