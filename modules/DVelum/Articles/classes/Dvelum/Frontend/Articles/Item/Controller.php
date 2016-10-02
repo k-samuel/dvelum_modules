@@ -94,7 +94,7 @@ class Dvelum_Frontend_Articles_Item_Controller extends Frontend_Controller
             if(!empty($imgData)){
                 $data['image'] = Model_Medialib::getImgPath($imgData['path'], $imgData['ext'],  $this->config->get('article_image_size'));
                 //Open Graph property
-                $this->_page->setOgProperty('image', $data['image']);
+                $this->_page->setOgProperty('image', $scheme . Request::server('HTTP_HOST', 'string', '').$data['image']);
             }else{
                 $data['image']= '';
             }
