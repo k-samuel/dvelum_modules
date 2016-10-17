@@ -1,7 +1,7 @@
 <?php
 return [
     'id' => 'dvelum_articles',
-    'version' => '1.0.4',
+    'version' => '1.0.5',
     'author' => 'Kirill Egorov',
     'name' => 'DVelum Articles',
     'configs' => './configs',
