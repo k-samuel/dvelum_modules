@@ -83,7 +83,7 @@ class Model_Dvelum_Article extends Model
 
         if(!empty($imageIds))
         {
-            $images = $mediaModel->getList(false,['id'=>$imageIds],['id','path','ext'], true);
+            $images = $mediaModel->getItems($imageIds,['id','path','ext'], true);
 
             if(!empty($images))
             {
@@ -236,8 +236,10 @@ class Model_Dvelum_Article extends Model
             $data = $this->_cache->load($hash);
         }
 
-        if($data !==false)
+        if($data !==false){
+            $data = $this->addImagePaths($data, $imageSize, 'image');
             return $data;
+        }
 
         $pager = array(
             'sort'=>'date_published',
@@ -257,12 +259,12 @@ class Model_Dvelum_Article extends Model
 
         $images = array();
 
+        if($this->_cache)
+            $this->_cache->save($data , $hash);
+
         if(!empty($data)) {
             $data =  $this->addImagePaths($data, $imageSize, 'image');
         }
-
-        if($this->_cache)
-            $this->_cache->save($data , $hash);
 
         return $data;
     }
