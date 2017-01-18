@@ -1,11 +1,13 @@
 <?php return array (
   'urlCode' => 'URL Код',
   'propertyType' => 'Тип аттрибута',
-  'productProperties' => 'Свойства товара',
+  'productProperties' => 'Свойства продукта',
   'addProperty' => 'Добавить свойство',
-  'propertyGoup' => 'Грппа свойств',
-  'propertyGoups' => 'Группы свойств',
-  'addGroup' => 'Добавить группу',
   'code' => 'Код',
   'name' => 'Наименование',
+  'addProduct' => 'Добавить продукт',
+  'products' => 'Продукты',
+  'price' => 'Цена',
+  'catalog' => 'Каталог',
+  'addCategory' => 'Добавить категорию',
 ); 

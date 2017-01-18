@@ -8,25 +8,8 @@
       'title' => 'Наименование',
       'description' => 'Описание',
       'code' => 'URL Код',
-    ),
-  ),
-  'dvelum_shop_property' => 
-  array (
-    'title' => 'Аттрибут товара',
-    'fields' => 
-    array (
-      'group_id' => 'Группа',
-      'code' => 'Код',
-      'type' => 'Тип аттрибута',
-      'title' => 'Наименование',
-    ),
-  ),
-  'dvelum_shop_property_group' => 
-  array (
-    'title' => 'Группа аттрибутов товара',
-    'fields' => 
-    array (
-      'title' => 'Наименование',
+      'enabled' => 'Включена',
+      'order_no' => '№ По порядку',
     ),
   ),
   'dvelum_shop_product' => 
@@ -34,29 +17,21 @@
     'title' => 'Товар',
     'fields' => 
     array (
+      'fields' => 'Поля',
+      'category' => 'Категории каталога',
       'code' => 'URL код',
-      'category_id' => 'Категория каталога',
+      'external_id' => 'ID  внешней системы',
       'title' => 'Наименование',
-      'description' => 'Описание',
     ),
   ),
-  'dvelum_shop_category_property' => 
+  'dvelum_shop_product_category_to_dvelum_shop_category' => 
   array (
-    'title' => 'Аттрибуты товаров в категории',
+    'title' => 'Многие ко многим (таблица связей) dvelum_shop_product & dvelum_shop_category',
     'fields' => 
     array (
-      'category_id' => 'Категория каталога',
-      'property_id' => 'Аттрибут',
-      'required' => 'Обязательный',
-    ),
-  ),
-  'dvelum_shop_property_list' => 
-  array (
-    'title' => 'Списки для свойств товаров',
-    'fields' => 
-    array (
-      'property_id' => 'ID  Свойства',
-      'value' => 'Значение',
+      'source_id' => 'SOURCE',
+      'target_id' => 'TARGET',
+      'order_no' => 'SORT',
     ),
   ),
 ); 

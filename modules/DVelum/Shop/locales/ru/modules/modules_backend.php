@@ -1,4 +1,4 @@
 <?php return array (
-  'Dvelum_Shop_Catalog' => 'Каталог',
-  'Dvelum_Shop_Property' => 'Свойства товаров',
+  'Dvelum_Shop_Product' => 'Продукты (свойства)',
+  'Dvelum_Shop_Category' => 'Каталог',
 ); 

@@ -70,6 +70,27 @@
       'is_search' => true,
       'allow_html' => false,
     ),
+    'enabled' => 
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => false,
+      'required' => false,
+      'validator' => '',
+      'db_type' => 'boolean',
+      'db_default' => 0,
+    ),
+    'order_no' => 
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => false,
+      'required' => true,
+      'validator' => '',
+      'db_type' => 'int',
+      'db_default' => 0,
+      'db_unsigned' => true,
+    ),
   ),
   'indexes' => 
   array (
@@ -80,6 +101,16 @@
         0 => 'code',
       ),
       'unique' => true,
+      'fulltext' => false,
+      'PRIMARY' => false,
+    ),
+    'parent_id' => 
+    array (
+      'columns' => 
+      array (
+        0 => 'parent_id',
+      ),
+      'unique' => false,
       'fulltext' => false,
       'PRIMARY' => false,
     ),

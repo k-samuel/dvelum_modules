@@ -1,22 +1,23 @@
 <?php return array (
-  'Dvelum_Shop_Catalog' => 
+  'Dvelum_Shop_Category' =>
   array (
     'dev' => false,
     'active' => true,
-    'class' => 'Dvelum_Backend_Shop_Catalog_Controller',
+    'class' => 'Dvelum_Backend_Shop_Category_Controller',
     'designer' => '',
     'in_menu' => true,
+    'designer' => '/DVelum/Shop/category.designer.dat',
     'icon' => 'resources/dvelum_shop/images/catalog.png',
-    'id' => 'Dvelum_Shop_Catalog',
+    'id' => 'Dvelum_Shop_Category',
   ),
-  'Dvelum_Shop_Property' =>
+  'Dvelum_Shop_Product' => 
   array (
-    'dev' => false,
+    'class' => 'Dvelum_Backend_Shop_Product_Controller',
+    'id' => 'Dvelum_Shop_Product',
     'active' => true,
-    'class' => 'Dvelum_Backend_Shop_Catalog_Property_Controller',
-    'designer' => '/DVelum/Shop/property.designer.dat',
+    'dev' => false,
+    'designer' => '/DVelum/Shop/product.designer.dat',
+    'icon' => 'resources/dvelum_shop/images/product.png',
     'in_menu' => true,
-    'icon' => 'resources/dvelum_shop/images/options.png',
-    'id' => 'Dvelum_Shop_Property',
-  ),
+  )
 ); 
