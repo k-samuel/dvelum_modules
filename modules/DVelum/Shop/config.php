@@ -4,6 +4,7 @@ return [
     'version' => '1.0',
     'author' => 'Kirill Egorov',
     'name' => 'DVelum Shop',
+    'description' => 'Catalog module, requires DVelum >=1.0.2',
     'configs' => './configs',
     'locales' => './locales',
     'resources' =>'./resources',

@@ -25,4 +25,13 @@ class Dvelum_Shop_Product_Field
     {
         return $this->config['title'];
     }
+
+    /**
+     * Get data as array
+     * @return array
+     */
+    public function __toArray()
+    {
+        return $this->config;
+    }
 }

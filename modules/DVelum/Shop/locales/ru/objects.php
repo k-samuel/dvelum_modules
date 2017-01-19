@@ -10,6 +10,7 @@
       'code' => 'URL Код',
       'enabled' => 'Включена',
       'order_no' => '№ По порядку',
+      'external_code' => 'Код внешней системы',
     ),
   ),
   'dvelum_shop_product' => 
@@ -20,8 +21,8 @@
       'fields' => 'Поля',
       'category' => 'Категории каталога',
       'code' => 'URL код',
-      'external_id' => 'ID  внешней системы',
       'title' => 'Наименование',
+      'external_code' => 'Код внешней системы',
     ),
   ),
   'dvelum_shop_product_category_to_dvelum_shop_category' => 

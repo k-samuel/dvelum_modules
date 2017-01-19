@@ -57,17 +57,6 @@
       'is_search' => true,
       'allow_html' => false,
     ),
-    'external_id' => 
-    array (
-      'type' => '',
-      'unique' => '',
-      'db_isNull' => true,
-      'required' => false,
-      'validator' => '',
-      'db_type' => 'bigint',
-      'db_default' => false,
-      'db_unsigned' => true,
-    ),
     'title' => 
     array (
       'type' => '',
@@ -81,6 +70,19 @@
       'is_search' => true,
       'allow_html' => false,
     ),
+    'external_code' => 
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => true,
+      'required' => false,
+      'validator' => '',
+      'db_type' => 'varchar',
+      'db_default' => false,
+      'db_len' => 255,
+      'is_search' => false,
+      'allow_html' => false,
+    ),
   ),
   'indexes' => 
   array (
@@ -89,6 +91,16 @@
       'columns' => 
       array (
         0 => 'code',
+      ),
+      'unique' => true,
+      'fulltext' => false,
+      'PRIMARY' => false,
+    ),
+    'external_code' => 
+    array (
+      'columns' => 
+      array (
+        0 => 'external_code',
       ),
       'unique' => true,
       'fulltext' => false,

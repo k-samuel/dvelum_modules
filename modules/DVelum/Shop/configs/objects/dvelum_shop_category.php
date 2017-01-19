@@ -91,6 +91,19 @@
       'db_default' => 0,
       'db_unsigned' => true,
     ),
+    'external_code' => 
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => true,
+      'required' => false,
+      'validator' => '',
+      'db_type' => 'varchar',
+      'db_default' => false,
+      'db_len' => 255,
+      'is_search' => false,
+      'allow_html' => false,
+    ),
   ),
   'indexes' => 
   array (
@@ -111,6 +124,16 @@
         0 => 'parent_id',
       ),
       'unique' => false,
+      'fulltext' => false,
+      'PRIMARY' => false,
+    ),
+    'external_code' => 
+    array (
+      'columns' => 
+      array (
+        0 => 'external_code',
+      ),
+      'unique' => true,
       'fulltext' => false,
       'PRIMARY' => false,
     ),
