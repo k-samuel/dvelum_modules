@@ -3,31 +3,10 @@ return [
     'product_config'=> [
         'object'=>'Dvelum_Shop_Product',
         'lang'=>'dvelum_shop',
-        'fields' => [
-            'price' => [
-                'name'=>'price',
-                'type' => 'money',
-                'system' => true,
-                'title'=>'price',
-                'required' => true,
-                'lazyLang' => true
-            ],
-            'title' => [
-                'name'=>'title',
-                'title'=>'title',
-                'type' => 'string',
-                'system' => true,
-                'required' => true,
-                'lazyLang' => true
-            ],
-            'description' => [
-                'name'=>'description',
-                'title'=>'description',
-                'type' => 'text',
-                'system' => true,
-                'required' => false,
-                'lazyLang' => true
-            ],
-        ]
+    ],
+    'storage' =>[
+        'adapter' => 'Dvelum_Shop_Product_Storage_Table',
+        'items_object'=> 'dvelum_shop_goods',
+        'fields_object' => 'dvelum_shop_goods_properties'
     ]
 ];

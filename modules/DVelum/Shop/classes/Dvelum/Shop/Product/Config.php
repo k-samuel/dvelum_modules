@@ -3,7 +3,6 @@ class Dvelum_Shop_Product_Config
 {
     static protected $instances;
     static protected $initialized = false;
-
     /**
      * @var array
      */
@@ -17,6 +16,11 @@ class Dvelum_Shop_Product_Config
     protected $model = null;
     protected $data = [];
 
+    static public function debug(){
+        foreach (static::$instances as $config){
+            echo $config->getId().' '.implode(', ',array_keys($config->getFieldsConfig()))."\n";
+        }
+    }
 
     /**
      * Create product configuration object
@@ -31,8 +35,9 @@ class Dvelum_Shop_Product_Config
         }
 
         if(!isset(static::$instances[$id])){
-            static::$instances[$id] = new static();
-            static::$instances[$id]->load($id);
+            $config = new static();
+            $config->load($id);
+            static::$instances[$id] = $config;
         }
         return  static::$instances[$id];
     }
@@ -79,7 +84,10 @@ class Dvelum_Shop_Product_Config
     static protected function init()
     {
         $config = Config::storage()->get('dvelum_shop.php')->get('product_config');
+        $systemFields = Config::storage()->get('dvelum_shop_fields.php')->__toArray();
         $appConfig = Config::storage()->get('main.php');
+
+        $config['fields'] = $systemFields;
         
         Lang::addDictionaryLoader($config['lang'], $appConfig->get('language').'/'. $config['lang'].'.php', Config::File_Array);
 
@@ -110,14 +118,18 @@ class Dvelum_Shop_Product_Config
             $this->data = $data;
         }elsE{
             $this->data = $this->model->getItem($id);
+
             if(empty($this->data)){
                 throw new Exception('Undefined Product '.$id);
             }
         }
+
         $fields = json_decode($this->data['fields'],true);
+
         if(empty($fields)){
             $fields = [];
         }
+
         $this->data['fields'] = $this->initFields($fields);
     }
     /**
@@ -127,13 +139,24 @@ class Dvelum_Shop_Product_Config
      */
     protected function initFields(array $data)
     {
-        $data = array_merge($data,static::$config['fields']);
+        $data = array_merge($data , static::$config['fields']);
+
         $result = [];
-        foreach ($data as $name=>$fieldConfig){
+
+        foreach ($data as $fieldConfig)
+        {
+            $name = $fieldConfig['name'];
+
             if(isset($fieldConfig['lazyLang']) && $fieldConfig['lazyLang']){
                 $fieldConfig['title'] = static::$lang->get($fieldConfig['title']);
             }
-            $result[$name] = new Dvelum_Shop_Product_Field($fieldConfig);
+            $fieldClass = 'Dvelum_Shop_Product_Field';
+            $adapterClass = 'Dvelum_Shop_Product_Field_'.ucfirst($fieldConfig['type']);
+
+            if(class_exists($adapterClass)){
+                $fieldClass = $adapterClass;
+            }
+            $result[$name] = new $fieldClass($fieldConfig);
         }
         return $result;
     }
@@ -153,10 +176,29 @@ class Dvelum_Shop_Product_Config
      */
     public function getFieldsConfig()
     {
-        $result = [];
         foreach ($this->data['fields'] as $name=>$field){
             $result[$name] = $field->__toArray();
         }
         return $result;
+    }
+
+    /**
+     * Check if product field exists
+     * @param $field
+     * @return bool
+     */
+    public function fieldExist($field)
+    {
+        return isset($this->data['fields'][$field]);
+    }
+
+    /**
+     * Get field object by name
+     * @param string $name
+     * @return Dvelum_Shop_Product_Field
+     */
+    public function getField($name)
+    {
+        return $this->data['fields'][$name];
     }
 }

@@ -23,4 +23,5 @@
   'msg_fieldsCopySuccess' => 'Fields successfully copied',
   'categories' => 'Categories',
   'externalCode' => 'Code from external system',
+  'model_number' => 'Product model number',
 ); 

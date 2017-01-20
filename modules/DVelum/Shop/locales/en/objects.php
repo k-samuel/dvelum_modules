@@ -15,7 +15,7 @@
   ),
   'dvelum_shop_product' => 
   array (
-    'title' => 'Product',
+    'title' => 'Product (classification)',
     'fields' => 
     array (
       'fields' => 'Fields',

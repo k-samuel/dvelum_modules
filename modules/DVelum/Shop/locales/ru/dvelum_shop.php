@@ -23,4 +23,5 @@
   'msg_fieldsCopySuccess' => 'Поля успешно скопированы',
   'categories' => 'Категории',
   'externalCode' => 'Код внешней системы',
+  'model_number' => 'Артикул',
 ); 

@@ -34,4 +34,27 @@ class Dvelum_Shop_Product_Field
     {
         return $this->config;
     }
+
+    /**
+     * Validate Value
+     * @param $value
+     * @return boolean
+     */
+    public function isValid($value)
+    {
+        if(is_string($value) || is_bool($value) || is_numeric($value) || is_null($value)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Filter value
+     * @param mixed $value
+     * @return mixed
+     */
+    public function filter($value)
+    {
+        return $value;
+    }
 }

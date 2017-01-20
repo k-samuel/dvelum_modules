@@ -3,7 +3,5 @@
     'float',
     'string',
     'money',
-    'boolean',
-    'text',
-    'list',
+    'boolean'
 ); 

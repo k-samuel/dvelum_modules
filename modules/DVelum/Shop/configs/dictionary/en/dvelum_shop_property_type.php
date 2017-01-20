@@ -4,6 +4,6 @@
   'list' => 'List item',
   'money' => 'Money',
   'number' => 'Number',
-  'string' => 'String',
+  'string' => 'String (up to 255 characters)',
   'text' => 'Text',
 ); 

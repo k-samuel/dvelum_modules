@@ -15,7 +15,7 @@
   ),
   'dvelum_shop_product' => 
   array (
-    'title' => 'Товар',
+    'title' => 'Продукт (классификация)',
     'fields' => 
     array (
       'fields' => 'Поля',
@@ -33,6 +33,31 @@
       'source_id' => 'SOURCE',
       'target_id' => 'TARGET',
       'order_no' => 'SORT',
+    ),
+  ),
+  'dvelum_shop_goods' => 
+  array (
+    'title' => 'Товары. (адаптер Table)',
+    'fields' => 
+    array (
+      'product_id' => 'ID  Продукта в классификации',
+      'field' => 'Поле',
+      'value' => 'Значение',
+      'item_id' => 'ID Товара',
+      'title' => 'Название',
+      'description' => 'Описание',
+      'model' => 'Артикул',
+    ),
+  ),
+  'dvelum_shop_goods_properties' => 
+  array (
+    'title' => 'Свойства товаров (адаптер Table)',
+    'fields' => 
+    array (
+      'product_id' => 'ID продукта в классификации',
+      'field' => 'Поле',
+      'value' => 'Значение',
+      'item_id' => 'ID товара',
     ),
   ),
 ); 

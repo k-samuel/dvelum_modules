@@ -23,4 +23,5 @@
   25 => 'msg_fieldsCopySuccess',
   26 => 'categories',
   27 => 'externalCode',
+  28 => 'model_number',
 ); 
