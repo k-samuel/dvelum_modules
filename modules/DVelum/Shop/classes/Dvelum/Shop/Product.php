@@ -60,8 +60,6 @@ class Dvelum_Shop_Product
     public function set($key, $val)
     {
         if(!$this->config->fieldExist($key)){
-            Dvelum_Shop_Product_Config::debug();
-            $this->config->getId()."\n\n\n\n";
             throw new Exception('Undefined field '.$key.' for product '.$this->code);
         }
 

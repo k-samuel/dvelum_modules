@@ -57,4 +57,16 @@ class Dvelum_Shop_Product_Field
     {
         return $value;
     }
+
+    /**
+     * Is sistem field
+     * @return boolean
+     */
+    public function isSystem()
+    {
+        if(isset($this->config['system']) && $this->config['system']){
+            return true;
+        }
+        return false;
+    }
 }

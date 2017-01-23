@@ -86,7 +86,7 @@ class Dvelum_Shop_Product_Storage_Table extends Dvelum_Shop_Product_Storage_Abst
 
     public function save(Dvelum_Shop_Product $product)
     {
-        $fields = $product->getConfig()->getFieldsConfig();
+        $fields = $product->getConfig()->getFields();
         $data = $product->getData();
 
         $system = [];
@@ -95,39 +95,45 @@ class Dvelum_Shop_Product_Storage_Table extends Dvelum_Shop_Product_Storage_Abst
         $productId = $product->getId();
         $productCode = $product->getCode();
 
-        foreach ($fields as $k=>$v)
+        $system['product'] = $productCode;
+
+        foreach ($fields as $name=>$field)
         {
-            if(!isset($data[$k]))
+            if(!isset($data[$name]))
                 continue;
 
-            if(!empty('system')){
-                $system[$k] = $data[$k];
+            if($field->isSystem()){
+                $system[$name] = $data[$name];
             }else{
                 $properties[] = [
                    'item_id'=> $productId,
                    'product_id'=> $productCode,
-                   'value' => $data[$k],
-                   'field' => $k
+                   'value' => $data[$name],
+                   'field' => $name
                 ];
             }
         }
 
         $itemsDb = $this->itemsModel->getDbConnection();
         $itemsDb->beginTransaction();
+
         if(!$this->itemsModel->insertOnDuplicateKeyUpdate($system)){
             $itemsDb->rollBack();
             return false;
         }
+
         $fieldsDb = $this->fieldsModel->getDbConnection();
         try{
             $fieldsDb->delete($this->fieldsModel->table(),'item_id ='.intval($productId));
             if(!$this->fieldsModel->multiInsert($properties)){
-                throw new Exception('Cannot save field properties');
+               return false;
             }
+            $itemsDb->commit();
         }catch (Exception $e){
             $itemsDb->rollBack();
             return false;
         }
+        return true;
     }
 
     public function find($filters = false, $params = false)

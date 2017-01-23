@@ -16,12 +16,6 @@ class Dvelum_Shop_Product_Config
     protected $model = null;
     protected $data = [];
 
-    static public function debug(){
-        foreach (static::$instances as $config){
-            echo $config->getId().' '.implode(', ',array_keys($config->getFieldsConfig()))."\n";
-        }
-    }
-
     /**
      * Create product configuration object
      * @param integer $id
@@ -85,9 +79,11 @@ class Dvelum_Shop_Product_Config
     {
         $config = Config::storage()->get('dvelum_shop.php')->get('product_config');
         $systemFields = Config::storage()->get('dvelum_shop_fields.php')->__toArray();
+        $systemGroups = Config::storage()->get('dvelum_shop_field_groups.php')->__toArray();
         $appConfig = Config::storage()->get('main.php');
 
         $config['fields'] = $systemFields;
+        $config['groups'] = $systemGroups;
         
         Lang::addDictionaryLoader($config['lang'], $appConfig->get('language').'/'. $config['lang'].'.php', Config::File_Array);
 
@@ -129,8 +125,16 @@ class Dvelum_Shop_Product_Config
         if(empty($fields)){
             $fields = [];
         }
-
         $this->data['fields'] = $this->initFields($fields);
+
+        if(!empty($this->data['groups'])){
+            $groups = json_decode($this->data['groups'],true);
+        }
+
+        if(empty($groups)){
+            $groups = [];
+        }
+        $this->data['groups'] = $this->initGroups($groups);
     }
     /**
      * Initialize product fields
@@ -139,7 +143,7 @@ class Dvelum_Shop_Product_Config
      */
     protected function initFields(array $data)
     {
-        $data = array_merge($data , static::$config['fields']);
+        $data = array_merge(static::$config['fields'], $data);
 
         $result = [];
 
@@ -158,6 +162,28 @@ class Dvelum_Shop_Product_Config
             }
             $result[$name] = new $fieldClass($fieldConfig);
         }
+        return $result;
+    }
+
+    /**
+     * Initialize product field groups
+     * @param array $groups
+     * @return array
+     */
+    protected function initGroups(array $groups)
+    {
+        $data = array_merge(static::$config['groups'], $groups);
+
+        $result = [];
+
+        foreach ($data as &$config)
+        {
+            if(isset($config['lazyLang']) && $config['lazyLang']){
+                $config['title'] = static::$lang->get($config['title']);
+            }
+            $result[$config['code']] = $config;
+        }unset($config);
+
         return $result;
     }
 
@@ -183,6 +209,15 @@ class Dvelum_Shop_Product_Config
     }
 
     /**
+     * Get field grups configuration as array
+     * @return array
+     */
+    public function getGroupsConfig()
+    {
+        return $this->data['groups'];
+    }
+
+    /**
      * Check if product field exists
      * @param $field
      * @return bool
@@ -200,5 +235,14 @@ class Dvelum_Shop_Product_Config
     public function getField($name)
     {
         return $this->data['fields'][$name];
+    }
+
+    /**
+     * Get product fields
+     * @return Dvelum_Shop_Product_Field[]
+     */
+    public function getFields()
+    {
+        return $this->data['fields'];
     }
 }

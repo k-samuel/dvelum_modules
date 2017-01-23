@@ -7,7 +7,8 @@ return [
         'title'=>'ID',
         'minValue'=> 1,
         'required' => true,
-        'lazyLang' => false
+        'lazyLang' => false,
+        'group' => 'system'
     ],
     'price' => [
         'name'=>'price',
@@ -16,7 +17,8 @@ return [
         'title'=>'price',
         'required' => true,
         'lazyLang' => true,
-        'external_code' => ''
+        'external_code' => '',
+        'group' => 'system'
     ],
     'title' => [
         'name'=>'title',
@@ -25,7 +27,8 @@ return [
         'system' => true,
         'required' => true,
         'lazyLang' => true,
-        'external_code' => ''
+        'external_code' => '',
+        'group' => 'system'
     ],
     'model' => [
         'name'=>'model',
@@ -34,7 +37,8 @@ return [
         'system' => true,
         'required' => false,
         'lazyLang' => true,
-        'external_code' => ''
+        'external_code' => '',
+        'group' => 'system'
     ],
     'description' => [
         'name'=>'description',
@@ -43,6 +47,16 @@ return [
         'system' => true,
         'required' => false,
         'lazyLang' => true,
-        'external_code' => ''
-    ]
+        'external_code' => '',
+        'group' => 'system'
+    ],
+    'external_code'=>[
+        'name'=>'external_code',
+        'title'=>'externalCode',
+        'type' => 'string',
+        'system' => true,
+        'required' => false,
+        'lazyLang' => true,
+        'group' => 'system'
+    ],
 ];

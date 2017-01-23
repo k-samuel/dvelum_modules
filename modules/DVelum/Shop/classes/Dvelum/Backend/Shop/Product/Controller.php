@@ -49,7 +49,19 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
         if(!empty($result))
         {
             $productConfig = Dvelum_Shop_Product_Config::factory($result['id']);
+            $groups = $productConfig->getGroupsConfig();
             $result['fields'] = array_values($productConfig->getFieldsConfig());
+            $result['groups'] = array_values($groups);
+
+            foreach ($result['fields'] as &$field)
+            {
+                if(isset($field['group']) && !empty($field['group']) && isset($groups[$field['group']])){
+                    $field['group_title'] = $groups[$field['group']]['title'];
+                }else{
+                    $field['group'] = '-';
+                    $field['group_title']  = '-';
+                }
+            }unset($field);
 
             if(!empty($result['category'])){
                 $model = Model::factory('dvelum_shop_category');
@@ -132,13 +144,35 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
         // convert fields data before save
         $fields = Request::post('fields','array',[]);
         if(!empty($fields)){
-            foreach ($fields as & $field){
+            foreach ($fields as $k=>&$field){
                 $field = json_decode($field, true);
+                if(isset($field['system']) && $field['system']){
+                    unset($fields[$k]);
+                }
                 unset($field['id']);
-            }
-        }unset($field);
+                unset($field['group_title']);
+            }unset($field);
+        }else{
+            $fields =[];
+        }
         $fields = json_encode($fields);
         Request::updatePost('fields', $fields);
+
+        // convert groups data before save
+        $groups = Request::post('groups','array',[]);
+        if(!empty($groups)){
+            foreach ($groups as $k=>&$group){
+                $group = json_decode($group, true);
+                unset($group['id']);
+                if(isset($group['system']) && $group['system']){
+                    unset($groups[$k]);
+                }
+            }unset($group);
+        }else{
+            $groups = [];
+        }
+        $groups = json_encode($groups);
+        Request::updatePost('groups', $groups);
 
         return parent::getPostedData($objectName);
     }

@@ -23,6 +23,7 @@
       'code' => 'URL код',
       'title' => 'Наименование',
       'external_code' => 'Код внешней системы',
+      'groups' => 'Группы полей (свойств)',
     ),
   ),
   'dvelum_shop_product_category_to_dvelum_shop_category' => 
@@ -40,13 +41,14 @@
     'title' => 'Товары. (адаптер Table)',
     'fields' => 
     array (
-      'product_id' => 'ID  Продукта в классификации',
+      'product' => 'ID Продукта в классификации',
       'field' => 'Поле',
       'value' => 'Значение',
       'item_id' => 'ID Товара',
       'title' => 'Название',
       'description' => 'Описание',
       'model' => 'Артикул',
+      'external_code' => 'ID  Внешней системы',
     ),
   ),
   'dvelum_shop_goods_properties' => 

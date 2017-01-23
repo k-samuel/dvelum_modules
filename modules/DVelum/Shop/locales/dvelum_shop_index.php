@@ -24,4 +24,10 @@
   26 => 'categories',
   27 => 'externalCode',
   28 => 'model_number',
+  29 => 'group',
+  30 => 'fieldGroups',
+  31 => 'editGroup',
+  32 => 'addGroup',
+  33 => 'system',
+  34 => 'multivalue',
 ); 

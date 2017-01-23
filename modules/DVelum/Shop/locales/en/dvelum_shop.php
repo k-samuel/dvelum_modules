@@ -24,4 +24,10 @@
   'categories' => 'Categories',
   'externalCode' => 'Code from external system',
   'model_number' => 'Product model number',
+  'group' => 'Group',
+  'fieldGroups' => 'Field Groups',
+  'editGroup' => 'Edit group',
+  'addGroup' => 'Add group',
+  'system' => 'System',
+  'multivalue' => 'Multi-Value',
 ); 

@@ -83,6 +83,18 @@
       'is_search' => false,
       'allow_html' => false,
     ),
+    'groups' => 
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => true,
+      'required' => false,
+      'validator' => '',
+      'db_type' => 'longtext',
+      'db_default' => false,
+      'is_search' => false,
+      'allow_html' => true,
+    ),
   ),
   'indexes' => 
   array (
