@@ -26,6 +26,24 @@ class Dvelum_Shop_Product_Field_Text extends Dvelum_Shop_Product_Field_String
      */
     public function isValid($value)
     {
+        if($this->config['multivalue']){
+            if(!is_array($value)){
+                return false;
+            }else{
+                foreach ($value as $item){
+                    if(!$this->checkValue($item)){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }else{
+            return $this->checkValue($value);
+        }
+    }
+
+    protected function checkValue($value)
+    {
         if(!is_string($value)){
             return false;
         }

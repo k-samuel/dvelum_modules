@@ -30,4 +30,6 @@
   32 => 'addGroup',
   33 => 'system',
   34 => 'multivalue',
+  35 => 'noGroup',
+  36 => 'acceptableValues',
 ); 

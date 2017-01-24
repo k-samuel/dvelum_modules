@@ -30,4 +30,6 @@
   'addGroup' => 'Add group',
   'system' => 'System',
   'multivalue' => 'Multi-Value',
+  'noGroup' => 'Without group',
+  'acceptableValues' => 'Acceptable values',
 ); 

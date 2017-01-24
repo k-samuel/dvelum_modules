@@ -26,6 +26,24 @@ class Dvelum_Shop_Product_Field_Number extends Dvelum_Shop_Product_Field
      */
     public function isValid($value)
     {
+        if($this->config['multivalue']){
+            if(!is_array($value)){
+                return false;
+            }else{
+                foreach ($value as $item){
+                    if(!$this->checkValue($item)){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }else{
+            return $this->checkValue($value);
+        }
+    }
+
+    protected function checkValue($value)
+    {
         if(!is_numeric($value)){
             return false;
         }
@@ -41,7 +59,6 @@ class Dvelum_Shop_Product_Field_Number extends Dvelum_Shop_Product_Field
                 return false;
             }
         }
-
         return true;
     }
 
@@ -52,6 +69,17 @@ class Dvelum_Shop_Product_Field_Number extends Dvelum_Shop_Product_Field
      */
     public function filter($value)
     {
-        return intval($value);
+        if($this->config['multivalue']){
+            if(!is_array($value)){
+                return [intval($value)];
+            }else{
+                foreach ($value as &$item){
+                    $item = intval($item);
+                }unset($item);
+                return array_values($value);
+            }
+        }else{
+            return intval($value);
+        }
     }
 }

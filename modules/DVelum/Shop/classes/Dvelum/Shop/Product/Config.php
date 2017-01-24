@@ -160,6 +160,11 @@ class Dvelum_Shop_Product_Config
             if(class_exists($adapterClass)){
                 $fieldClass = $adapterClass;
             }
+
+            if(!isset($fieldConfig['multivalue'])){
+                $fieldConfig['multivalue'] = false;
+            }
+
             $result[$name] = new $fieldClass($fieldConfig);
         }
         return $result;

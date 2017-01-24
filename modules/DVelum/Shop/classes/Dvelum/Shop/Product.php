@@ -67,7 +67,7 @@ class Dvelum_Shop_Product
 
         $value = $field->filter($val);
         if(!$field->isValid($value)){
-            throw new Exception('Invalid value '.((string) $val).' for field '.$key);
+            throw new Exception('Invalid value for field '.$key);
         }
 
         $this->data[$key] = $value;

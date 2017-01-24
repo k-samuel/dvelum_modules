@@ -55,16 +55,30 @@ class Dvelum_Shop_Product_Field
      */
     public function filter($value)
     {
+        if($this->config['multivalue'] && !is_array($value)){
+            $value = [$value];
+        }
         return $value;
     }
 
     /**
-     * Is sistem field
+     * Is system field
      * @return boolean
      */
     public function isSystem()
     {
         if(isset($this->config['system']) && $this->config['system']){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Is multi-value field
+     */
+    public function isMultiValue()
+    {
+        if(isset($this->config['multivalue']) && $this->config['multivalue']){
             return true;
         }
         return false;

@@ -36,6 +36,17 @@ class Dvelum_Shop_Product_Field_Boolean extends Dvelum_Shop_Product_Field
      */
     public function filter($value)
     {
-        return intval((boolean)$value);
+        if($this->config['multivalue']){
+            if(!is_array($value)){
+                return [intval((boolean)$value)];
+            }else{
+                foreach ($value as &$item){
+                    $item = intval((boolean)$item);
+                }unset($item);
+                return array_values($value);
+            }
+        }else{
+            return intval((boolean)$value);
+        }
     }
 }

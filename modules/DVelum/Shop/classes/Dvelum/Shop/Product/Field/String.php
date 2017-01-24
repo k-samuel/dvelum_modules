@@ -26,7 +26,25 @@ class Dvelum_Shop_Product_Field_String extends Dvelum_Shop_Product_Field
      */
     public function isValid($value)
     {
-        if(!is_string($value) || mb_strlen($value) > 255){
+        if($this->config['multivalue']){
+            if(!is_array($value)){
+                return false;
+            }else{
+                foreach ($value as $item){
+                    if(!$this->checkValue($item)){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }else{
+           return $this->checkValue($value);
+        }
+    }
+
+    protected function checkValue($value)
+    {
+        if(!is_string($value) || mb_strlen($value,'utf-8') > 255){
             return false;
         }
         return true;
@@ -39,6 +57,17 @@ class Dvelum_Shop_Product_Field_String extends Dvelum_Shop_Product_Field
      */
     public function filter($value)
     {
-        return Filter::filterValue(Filter::FILTER_STRING , $value);
+        if($this->config['multivalue']){
+            if(!is_array($value)){
+                return [Filter::filterValue(Filter::FILTER_STRING , $value)];
+            }else{
+                foreach ($value as &$item){
+                    $item = Filter::filterValue(Filter::FILTER_STRING , $item);
+                }unset($item);
+                return array_values($value);
+            }
+        }else{
+            return Filter::filterValue(Filter::FILTER_STRING , $value);
+        }
     }
 }

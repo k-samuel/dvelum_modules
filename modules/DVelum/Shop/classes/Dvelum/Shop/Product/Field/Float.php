@@ -26,6 +26,17 @@ class Dvelum_Shop_Product_Field_Float extends Dvelum_Shop_Product_Field_Number
      */
     public function filter($value)
     {
-        return floatval($value);
+        if($this->config['multivalue']){
+            if(!is_array($value)){
+                return [floatval($value)];
+            }else{
+                foreach ($value as &$item){
+                    $item = floatval($item);
+                }unset($item);
+                return array_values($value);
+            }
+        }else{
+            return floatval($value);
+        }
     }
 }

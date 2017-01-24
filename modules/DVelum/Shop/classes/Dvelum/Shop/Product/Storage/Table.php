@@ -105,12 +105,23 @@ class Dvelum_Shop_Product_Storage_Table extends Dvelum_Shop_Product_Storage_Abst
             if($field->isSystem()){
                 $system[$name] = $data[$name];
             }else{
-                $properties[] = [
-                   'item_id'=> $productId,
-                   'product_id'=> $productCode,
-                   'value' => $data[$name],
-                   'field' => $name
-                ];
+                if($field->isMultiValue()){
+                    foreach ($data[$name] as $val){
+                        $properties[] = [
+                            'item_id'=> $productId,
+                            'product_id'=> $productCode,
+                            'value' => $val,
+                            'field' => $name
+                        ];
+                    }
+                }else{
+                    $properties[] = [
+                        'item_id'=> $productId,
+                        'product_id'=> $productCode,
+                        'value' => $data[$name],
+                        'field' => $name
+                    ];
+                }
             }
         }
 

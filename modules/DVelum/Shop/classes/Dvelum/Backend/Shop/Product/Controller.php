@@ -42,6 +42,17 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
         return $result;
     }
 
+    /**
+     * Get shop localization dictionary
+     * @return Lang
+     */
+    protected function getLang()
+    {
+        $config = Config::storage()->get('dvelum_shop.php')->get('product_config');
+        Lang::addDictionaryLoader($config['lang'], $this->_configMain->get('language').'/'. $config['lang'].'.php', Config::File_Array);
+        return Lang::lang($config['lang']);
+    }
+
     protected function _getData()
     {
         $result = parent::_getData();
@@ -58,9 +69,18 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
                 if(isset($field['group']) && !empty($field['group']) && isset($groups[$field['group']])){
                     $field['group_title'] = $groups[$field['group']]['title'];
                 }else{
-                    $field['group'] = '-';
-                    $field['group_title']  = '-';
+                    $field['group'] = '';
+                    $field['group_title']  = $this->getLang()->get('noGroup');
                 }
+
+               if(isset($field['list']) && !empty($field['list'])){
+                    $listData = [];
+                    foreach ($field['list'] as $v){
+                        $listData[] = ['value'=>$v];
+                    }
+                    $field['list'] = $listData;
+               }
+
             }unset($field);
 
             if(!empty($result['category'])){
@@ -126,14 +146,23 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
 
         try{
             $productConfig = Dvelum_Shop_Product_Config::factory($id);
+            $groups = $productConfig->getGroupsConfig();
             $list = array_values($productConfig->getFieldsConfig());
             // hide system fields
-            foreach ($list as $k=>$v){
-                if($v['system']){
+            foreach ($list as $k=>&$field)
+            {
+                if($field['system']){
                     unset($list[$k]);
+                    continue;
                 }
-            }
-            Response::jsonSuccess($list);
+                if(isset($field['group']) && !empty($field['group']) && isset($groups[$field['group']])){
+                    $field['group_title'] = $groups[$field['group']]['title'];
+                }else{
+                    $field['group'] = '';
+                    $field['group_title']  = $this->getLang()->get('noGroup');
+                }
+            }unset($field);
+            Response::jsonSuccess(array_values($list));
         }catch (Exception $e){
             Response::jsonError($this->_lang->get('CANT_EXEC'));
         }
@@ -144,10 +173,26 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
         // convert fields data before save
         $fields = Request::post('fields','array',[]);
         if(!empty($fields)){
-            foreach ($fields as $k=>&$field){
+            foreach ($fields as $k=>&$field)
+            {
                 $field = json_decode($field, true);
                 if(isset($field['system']) && $field['system']){
                     unset($fields[$k]);
+                }
+                if($field['type'] == 'list')
+                {
+                    if(!empty($field['list']))
+                    {
+                        if(is_array($field['list'])){
+                            $field['list'] = Utils::fetchCol('value',$field['list']);
+                        }else{
+                            $field['list'] = [];
+                        }
+                    }else{
+                        $field['list'] = [];
+                    }
+                }else{
+                    unset($field['list']);
                 }
                 unset($field['id']);
                 unset($field['group_title']);
