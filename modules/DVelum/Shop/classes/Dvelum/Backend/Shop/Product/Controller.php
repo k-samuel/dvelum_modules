@@ -161,6 +161,15 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
                     $field['group'] = '';
                     $field['group_title']  = $this->getLang()->get('noGroup');
                 }
+
+                if(isset($field['list']) && !empty($field['list'])){
+                    $listData = [];
+                    foreach ($field['list'] as $v){
+                        $listData[] = ['value'=>$v];
+                    }
+                    $field['list'] = $listData;
+                }
+                
             }unset($field);
             Response::jsonSuccess(array_values($list));
         }catch (Exception $e){
