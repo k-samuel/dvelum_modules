@@ -32,4 +32,8 @@
   'multivalue' => 'Несколько значений',
   'noGroup' => 'Без группы',
   'acceptableValues' => 'Допустимые значения',
+  'parentCategory' => 'Родительский каталог',
+  'addSubCategory' => 'Добавить подкатегорию',
+  'catalogCategory' => 'Категория каталога',
+  'goods' => 'Товары',
 ); 

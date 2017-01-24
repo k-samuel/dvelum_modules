@@ -75,7 +75,7 @@ class Dvelum_Shop_Product_Config
         return $result;
     }
 
-    static protected function init()
+    static public function init()
     {
         $config = Config::storage()->get('dvelum_shop.php')->get('product_config');
         $systemFields = Config::storage()->get('dvelum_shop_fields.php')->__toArray();
@@ -90,6 +90,23 @@ class Dvelum_Shop_Product_Config
         static::$lang = Lang::lang($config['lang']);
         static::$config = $config;
         static::$initialized = true;
+    }
+    /**
+     * Get list of system fields
+     * @return array
+     */
+    static public function getSystemFields()
+    {
+        return static::$config['fields'];
+    }
+
+    /**
+     * Get list of system groups
+     * @return array
+     */
+    static public function getSystemGroups()
+    {
+        return static::$config['groups'];
     }
 
     /**
@@ -143,7 +160,11 @@ class Dvelum_Shop_Product_Config
      */
     protected function initFields(array $data)
     {
-        $data = array_merge(static::$config['fields'], $data);
+        if(!empty($data)){
+            $data = array_merge(static::$config['fields'], $data);
+        }else{
+            $data = static::$config['fields'];
+        }
 
         $result = [];
 
@@ -177,7 +198,11 @@ class Dvelum_Shop_Product_Config
      */
     protected function initGroups(array $groups)
     {
-        $data = array_merge(static::$config['groups'], $groups);
+        if(!empty($groups)){
+            $data = array_merge(static::$config['groups'], $groups);
+        }else{
+            $data = static::$config['groups'];
+        }
 
         $result = [];
 

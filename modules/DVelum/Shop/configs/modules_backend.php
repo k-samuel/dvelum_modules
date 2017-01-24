@@ -19,5 +19,15 @@
     'designer' => '/DVelum/Shop/product.designer.dat',
     'icon' => 'resources/dvelum_shop/images/product.png',
     'in_menu' => true,
+  ),
+  'Dvelum_Shop_Goods' =>
+  array (
+    'class' => 'Dvelum_Backend_Shop_Goods_Controller',
+    'id' => 'Dvelum_Shop_Goods',
+    'active' => true,
+    'dev' => false,
+    'designer' => '/DVelum/Shop/goods.designer.dat',
+    'icon' => 'resources/dvelum_shop/images/goods.png',
+    'in_menu' => true,
   )
 ); 

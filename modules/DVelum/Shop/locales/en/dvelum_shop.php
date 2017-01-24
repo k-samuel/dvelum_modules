@@ -32,4 +32,8 @@
   'multivalue' => 'Multi-Value',
   'noGroup' => 'Without group',
   'acceptableValues' => 'Acceptable values',
+  'parentCategory' => 'Parent category',
+  'addSubCategory' => 'Add sub category',
+  'catalogCategory' => 'Catalog category',
+  'goods' => 'Goods',
 ); 

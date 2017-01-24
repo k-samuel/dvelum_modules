@@ -32,4 +32,8 @@
   34 => 'multivalue',
   35 => 'noGroup',
   36 => 'acceptableValues',
+  37 => 'parentCategory',
+  38 => 'addSubCategory',
+  39 => 'catalogCategory',
+  40 => 'goods',
 ); 

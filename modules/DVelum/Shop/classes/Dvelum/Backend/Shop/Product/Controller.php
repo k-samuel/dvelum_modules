@@ -80,7 +80,6 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
                     }
                     $field['list'] = $listData;
                }
-
             }unset($field);
 
             if(!empty($result['category'])){
@@ -135,6 +134,17 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
     }
 
     /**
+     * Get product initial properties
+     */
+    public function getProductDefaultsAction()
+    {
+        Dvelum_Shop_Product_Config::init();
+        Response::jsonSuccess([
+            'fields' => array_values(Dvelum_Shop_Product_Config::getSystemFields()),
+            'groups' => array_values(Dvelum_Shop_Product_Config::getSystemGroups()),
+        ]);
+    }
+    /**
      * Get list of product properties
      */
     public function getProductPropertiesAction()
@@ -151,7 +161,7 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
             // hide system fields
             foreach ($list as $k=>&$field)
             {
-                if($field['system']){
+                if(!empty($field['system'])){
                     unset($list[$k]);
                     continue;
                 }
@@ -181,9 +191,14 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
     {
         // convert fields data before save
         $fields = Request::post('fields','array',[]);
-        if(!empty($fields)){
+        if(!empty($fields))
+        {
             foreach ($fields as $k=>&$field)
             {
+                if(empty($field)){
+                    unset($fields[$k]);
+                    continue;
+                }
                 $field = json_decode($field, true);
                 if(isset($field['system']) && $field['system']){
                     unset($fields[$k]);
@@ -192,8 +207,8 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
                 {
                     if(!empty($field['list']))
                     {
-                        if(is_array($field['list'])){
-                            $field['list'] = Utils::fetchCol('value',$field['list']);
+                        if(is_array($field['list']) && !empty($field['list'])){
+                            $field['list'] = Utils::fetchCol('value', $field['list']);
                         }else{
                             $field['list'] = [];
                         }
