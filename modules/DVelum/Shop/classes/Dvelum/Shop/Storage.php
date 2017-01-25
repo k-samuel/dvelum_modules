@@ -17,11 +17,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Dvelum_Shop_Product_Storage
+class Dvelum_Shop_Storage
 {
     /**
      * Factory Method
-     * @return Dvelum_Shop_Product_Storage_AbstractAdapter
+     * @return Dvelum_Shop_Storage_AbstractAdapter
      */
     static public function factory()
     {

@@ -22,7 +22,7 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
         if(!empty($result['data']))
         {
             try{
-                $configList = Dvelum_Shop_Product_Config::factoryMultiple(Utils::fetchCol('id', $result['data']));
+                $configList = Dvelum_Shop_Product::factoryMultiple(Utils::fetchCol('id', $result['data']));
             }catch (Exception $e){
                 echo $e->getMessage();
                 Model::factory($this->getObjectName())->logError($e->getMessage());
@@ -32,7 +32,7 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
             {
                 if(isset($configList[$item['id']])){
                     /**
-                     * @var Dvelum_Shop_Product_Config $cfg
+                     * @var Dvelum_Shop_Product $cfg
                      */
                     $cfg = $configList[$item['id']];
                     $item['fields_count'] = count($cfg->getFieldsConfig());
@@ -59,7 +59,7 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
 
         if(!empty($result))
         {
-            $productConfig = Dvelum_Shop_Product_Config::factory($result['id']);
+            $productConfig = Dvelum_Shop_Product::factory($result['id']);
             $groups = $productConfig->getGroupsConfig();
             $result['fields'] = array_values($productConfig->getFieldsConfig());
             $result['groups'] = array_values($groups);
@@ -138,10 +138,10 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
      */
     public function getProductDefaultsAction()
     {
-        Dvelum_Shop_Product_Config::init();
+        Dvelum_Shop_Product::init();
         Response::jsonSuccess([
-            'fields' => array_values(Dvelum_Shop_Product_Config::getSystemFields()),
-            'groups' => array_values(Dvelum_Shop_Product_Config::getSystemGroups()),
+            'fields' => array_values(Dvelum_Shop_Product::getSystemFields()),
+            'groups' => array_values(Dvelum_Shop_Product::getSystemGroups()),
         ]);
     }
     /**
@@ -155,7 +155,7 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
             Response::jsonError($this->_lang->get('WRONG_REQUEST'));
 
         try{
-            $productConfig = Dvelum_Shop_Product_Config::factory($id);
+            $productConfig = Dvelum_Shop_Product::factory($id);
             $groups = $productConfig->getGroupsConfig();
             $list = array_values($productConfig->getFieldsConfig());
             // hide system fields

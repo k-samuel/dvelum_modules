@@ -49,6 +49,7 @@
       'description' => 'Описание',
       'model' => 'Артикул',
       'external_code' => 'ID  Внешней системы',
+      'images' => 'Изображения',
     ),
   ),
   'dvelum_shop_goods_properties' => 
@@ -60,6 +61,16 @@
       'field' => 'Поле',
       'value' => 'Значение',
       'item_id' => 'ID товара',
+    ),
+  ),
+  'dvelum_shop_goods_images_to_medialib' => 
+  array (
+    'title' => 'Многие ко многим (таблица связей) dvelum_shop_goods & medialib',
+    'fields' => 
+    array (
+      'source_id' => 'SOURCE',
+      'target_id' => 'TARGET',
+      'order_no' => 'SORT',
     ),
   ),
 ); 

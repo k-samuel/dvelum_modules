@@ -17,11 +17,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class Dvelum_Shop_Goods_Controller extends Backend_Controller_Crud
+class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
 {
-    protected $_listFields = ["title","id"];
-    protected $_listLinks = [];
-    protected $_canViewObjects = ["dvelum_shop_category"];
+    protected $_listFields = ["title","id","model","product"];
+    protected $_canViewObjects = ["dvelum_shop_category","dvelum_shop_product"];
 
     public function getModule()
     {
@@ -31,5 +30,47 @@ class Dvelum_Shop_Goods_Controller extends Backend_Controller_Crud
     public function  getObjectName()
     {
         return 'Dvelum_Shop_Goods';
+    }
+
+    protected function _getList()
+    {
+        $pager = Request::post('pager' , 'array' , []);
+        $filter = Request::post('filter' , 'array' , []);
+        $query = Request::post('search' , 'string' , false);
+
+        $storage = Dvelum_Shop_Storage::factory();
+        $count = $storage->count($filter, $query);
+        $data = [];
+
+        if($count)
+        {
+            $result = $storage->find($filter, $pager, $query);
+            /**
+             * @var Dvelum_Shop_Goods $item
+             */
+            foreach ($result as $item)
+            {
+                $fields = $item->getData();
+                $fields['id'] = $item->getId();
+
+                foreach ($fields as $field=>$val){
+                    if(!in_array($field,$this->_listFields,true)){
+                        unset($fields[$field]);
+                    }
+                }
+                $data[] = $fields;
+            }
+
+            $productIds = Utils::fetchCol('product', $data);
+            $products = Db_Object::factory('Dvelum_Shop_Product', $productIds);
+            foreach ($data as $k=>&$v)
+            {
+                if(isset($products[$v['product']])){
+                    $v['product_title'] = $products[$v['product']]->getTitle();
+                }
+            }unset($v);
+        }
+
+        return ['data' =>$data , 'count'=> $count];
     }
 }

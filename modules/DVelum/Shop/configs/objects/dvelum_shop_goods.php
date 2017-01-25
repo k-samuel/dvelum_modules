@@ -16,7 +16,7 @@
   'log_detalization' => 'default',
   'fields' => 
   array (
-    'product' =>
+    'product' => 
     array (
       'type' => 'link',
       'unique' => '',
@@ -82,6 +82,22 @@
       'db_len' => 255,
       'is_search' => true,
       'allow_html' => false,
+    ),
+    'images' => 
+    array (
+      'type' => 'link',
+      'unique' => '',
+      'db_isNull' => false,
+      'required' => false,
+      'validator' => '',
+      'link_config' => 
+      array (
+        'link_type' => 'multi',
+        'object' => 'medialib',
+        'relations_type' => 'many_to_many',
+      ),
+      'db_type' => 'longtext',
+      'db_default' => '',
     ),
   ),
   'indexes' => 

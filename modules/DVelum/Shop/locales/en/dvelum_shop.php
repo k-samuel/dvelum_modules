@@ -36,4 +36,5 @@
   'addSubCategory' => 'Add sub category',
   'catalogCategory' => 'Catalog category',
   'goods' => 'Goods',
+  'product' => 'Product',
 ); 

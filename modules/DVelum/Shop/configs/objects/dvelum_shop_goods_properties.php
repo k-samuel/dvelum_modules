@@ -87,21 +87,22 @@
       'fulltext' => false,
       'PRIMARY' => false,
     ),
-    'value' => 
-    array (
-      'columns' => 
-      array (
-        0 => 'value',
-      ),
-      'unique' => false,
-      'fulltext' => false,
-      'PRIMARY' => false,
-    ),
     'item_id' => 
     array (
       'columns' => 
       array (
         0 => 'item_id',
+      ),
+      'unique' => false,
+      'fulltext' => false,
+      'PRIMARY' => false,
+    ),
+    'field_value' => 
+    array (
+      'columns' => 
+      array (
+        0 => 'field',
+        1 => 'value',
       ),
       'unique' => false,
       'fulltext' => false,
