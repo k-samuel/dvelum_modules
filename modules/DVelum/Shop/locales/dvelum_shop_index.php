@@ -37,4 +37,6 @@
   39 => 'catalogCategory',
   40 => 'goods',
   41 => 'product',
+  42 => 'active',
+  43 => 'images',
 ); 

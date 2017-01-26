@@ -59,4 +59,23 @@ return [
         'lazyLang' => true,
         'group' => 'system'
     ],
+    'enabled'=>[
+        'name' => 'enabled',
+        'title' => 'active',
+        'type' => 'boolean',
+        'system' => true,
+        'required' => false,
+        'lazyLang' => true,
+        'group' => 'system'
+    ],
+    'images'=>[
+        'name'=>'images',
+        'title' => 'images',
+        'type' => 'number',
+        'system' => true,
+        'required' => false,
+        'lazyLang' => true,
+        'group' => 'system',
+        'multivalue'=>true
+    ]
 ];

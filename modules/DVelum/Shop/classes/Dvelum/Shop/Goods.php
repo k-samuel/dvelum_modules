@@ -103,8 +103,12 @@ class Dvelum_Shop_Goods
      */
     public function get($key)
     {
-        if(array_key_exists($key,$this->data)){
-            throw new Exception('Undefined field '.$key);
+        if(!array_key_exists($key,$this->data)){
+            if($this->config->fieldExist($key)){
+                return null;
+            }else{
+                throw new Exception('Undefined field '.$key);
+            }
         }
         return $this->data[$key];
     }

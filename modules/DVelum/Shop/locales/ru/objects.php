@@ -50,6 +50,7 @@
       'model' => 'Артикул',
       'external_code' => 'ID  Внешней системы',
       'images' => 'Изображения',
+      'enabled' => 'Активен',
     ),
   ),
   'dvelum_shop_goods_properties' => 

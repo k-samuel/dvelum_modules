@@ -53,7 +53,6 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
         parent::__construct($config);
         $this->itemsModel = Model::factory($config->get('items_object'));
         $this->fieldsModel = Model::factory($config->get('fields_object'));
-        $this->imagesModel = Model::factory($config->get('images_object'));
     }
     /**
      * Load goods by id
@@ -153,7 +152,6 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
                 if($field->isMultiValue()){
                     foreach ($data[$name] as $val){
                         $properties[] = [
-                            'item_id'=> $goodsId,
                             'product_id'=> $productCode,
                             'value' => $val,
                             'field' => $name
@@ -161,7 +159,6 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
                     }
                 }else{
                     $properties[] = [
-                        'item_id'=> $goodsId,
                         'product_id'=> $productCode,
                         'value' => $data[$name],
                         'field' => $name
@@ -174,21 +171,18 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
 
         try{
             $itemsDb->beginTransaction();
-            if(!$item->getId()){
-                $itemsDb->insert($this->itemsModel->table(), $system);
-                $id = intval($itemsDb->lastInsertId($this->itemsModel->table()));
-                $item->setId($id);
-                foreach ($properties as $k=>&$v){
-                    $v['item_id'] = $id;
-                }unset($v);
-            }else{
-                $itemsDb->update($this->itemsModel->table(), $system, 'id ='.intval($item->getId()));
-            }
-
-            if(!$this->itemsModel->insertOnDuplicateKeyUpdate($system)){
+            $o = Db_Object::factory($this->config->get('items_object'), $item->getId());
+            $o->setValues($system);
+            if(!$o->save(false)){
+                throw new Exception('Cannot save '.$this->config->get('items_object'));
                 $itemsDb->rollBack();
                 return false;
             }
+            $id = $o->getId();
+            $item->setId($id);
+            foreach ($properties as $k=>&$v){
+                $v['item_id'] = $id;
+            }unset($v);
 
             $fieldsDb = $this->fieldsModel->getDbConnection();
             $fieldsDb->delete($this->fieldsModel->table(),'item_id ='.intval($item->getId()));
@@ -201,6 +195,7 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
             $itemsDb->commit();
         }catch (Exception $e){
             $itemsDb->rollBack();
+            $this->itemsModel->logError($e->getMessage());
             return false;
         }
         return true;

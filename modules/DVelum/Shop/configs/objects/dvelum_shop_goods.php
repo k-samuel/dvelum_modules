@@ -99,6 +99,16 @@
       'db_type' => 'longtext',
       'db_default' => '',
     ),
+    'enabled' => 
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => false,
+      'required' => false,
+      'validator' => '',
+      'db_type' => 'boolean',
+      'db_default' => 0,
+    ),
   ),
   'indexes' => 
   array (

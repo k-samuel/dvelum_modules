@@ -41,14 +41,15 @@
             'title' => 'Goods (Table adapter)',
             'fields' =>
                 array (
-                    'product' => 'ID Продукта в классификации',
-                    'field' => 'Поле',
-                    'value' => 'Значение',
-                    'item_id' => 'ID Товара',
-                    'title' => 'Название',
-                    'description' => 'Описание',
-                    'model' => 'Артикул',
-                    'external_code' => 'ID  Внешней системы',
+                    'product' => 'Product ID (classification)',
+                    'field' => 'Field',
+                    'value' => 'Value',
+                    'item_id' => 'Item ID',
+                    'title' => 'Title',
+                    'description' => 'Description',
+                    'model' => 'Product Model',
+                    'external_code' => 'External code',
+                    'enabled' => 'Active',
                 ),
         ),
     'dvelum_shop_goods_properties' =>
