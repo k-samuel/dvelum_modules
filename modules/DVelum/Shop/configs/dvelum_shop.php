@@ -14,23 +14,5 @@ return [
         // path relative uploads directory (main.php -> uploads)
         'file_path' => 'goods/',
         'category'=>null,
-        'uploader' =>[
-            'image' => [
-                'extensions' => ['.gif', '.png','.jpg','.jpeg'],
-                'rewrite'=>false,
-                // 15 mb
-                'max_file_size'=> 1024*1024*1024*15,
-                'sizes' => [
-                    'icon'=> [48,48],
-                    'thumbnail' => [150, 150],
-                    'medium' => [300, 300]
-                ],
-                'thumb_types' => [
-                    'icon' => 'crop',
-                    'thumbnail' => 'resize_fit',
-                    'medium' => 'resize_fit'
-                ]
-            ]
-        ]
     ]
 ];

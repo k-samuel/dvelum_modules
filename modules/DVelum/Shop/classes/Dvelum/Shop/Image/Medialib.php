@@ -36,6 +36,12 @@ class Dvelum_Shop_Image_Medialib extends Dvelum_Shop_Image_AbstractAdapter
      */
     protected $wwwPath;
 
+    /**
+     * File uploader configuration
+     * @var array
+     */
+    protected $uploaderConfig = [];
+
     public function __construct(Config_Abstract $config)
     {
         parent::__construct($config);
@@ -43,6 +49,7 @@ class Dvelum_Shop_Image_Medialib extends Dvelum_Shop_Image_AbstractAdapter
         $this->storagePath = $appConfig->get('uploads') . $this->config->get('file_path');
         $this->mediaModel = Model::factory('Medialib');
         $this->wwwPath = $appConfig->get('wwwpath');
+        $this->uploaderConfig = ['image'=>Config::storage()->get('media_library.php')->get('image')];
     }
 
     /**
@@ -53,8 +60,7 @@ class Dvelum_Shop_Image_Medialib extends Dvelum_Shop_Image_AbstractAdapter
      */
     public function addImage($path, array $info)
     {
-        $uploadConfig = $this->config->get('uploader');
-        $uploader = new Upload($uploadConfig);
+        $uploader = new Upload($this->uploaderConfig);
 
         $files = [[
             'name'=> basename($path),
