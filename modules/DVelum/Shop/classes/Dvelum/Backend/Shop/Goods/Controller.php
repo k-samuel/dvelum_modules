@@ -73,4 +73,70 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
 
         return ['data' =>$data , 'count'=> $count];
     }
+
+    /**
+     * Prepare data for loaddataAction
+     * @return array
+     * @throws Exception
+     */
+    protected function _getData()
+    {
+        $id = Request::post('id' , 'integer' , false);
+
+        if(!$id)
+            return [];
+
+        $storage = Dvelum_Shop_Storage::factory();
+        try{
+            $obj = $storage->load($id);
+        }catch(Exception $e){
+            Model::factory($this->_objectName)->logError($e->getMessage());
+            return [];
+        }
+
+        $data = $obj->getData();
+        $data['id'] = $obj->getId();
+
+        $images = $obj->get('images');
+
+        if(!empty($images) && is_array($images))
+        {
+            $imageStore = Dvelum_Shop_Image::factory();
+            $images = $imageStore->getImages($images);
+            foreach ($images as &$image){
+                $image = [
+                    'id' => $image['id'],
+                    'icon' => $image['pics']['thumbnail']
+                ];
+            }unset($image);
+            $data['images'] = array_values($images);
+        }else{
+            $data['images'] = [];
+        }
+        return $data;
+    }
+
+    public function loadObjectAction()
+    {
+        $id = Request::post('id' , 'integer' , false);
+
+        if(!$id){
+            Response::jsonError($this->_lang->get('WRONG_REQUEST'));
+        }
+
+        $storage = Dvelum_Shop_Storage::factory();
+        try{
+            $obj = $storage->load($id);
+        }catch(Exception $e){
+            Model::factory($this->_objectName)->logError($e->getMessage());
+            Response::jsonError($this->_lang->get('CANT_EXEC'));
+        }
+
+        $form = new Dvelum_Shop_Goods_Form();
+
+        $config = $form->backendForm($obj->getConfig());
+        $data = $obj->getData();
+
+        Response::jsonSuccess(['data'=>$data,'config'=>$config]);
+    }
 }

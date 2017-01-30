@@ -60,4 +60,11 @@ abstract class Dvelum_Shop_Image_AbstractAdapter
      */
     abstract public function getImage($id);
 
+    /**
+     * Get images info
+     * @param array $ids
+     * @return array
+     */
+    abstract public function getImages(array $ids);
+
 }

@@ -39,4 +39,6 @@
   'product' => 'Product',
   'active' => 'Active',
   'images' => 'Images',
+  'addGoods' => 'Add goods',
+  'addImage' => 'Add image',
 ); 

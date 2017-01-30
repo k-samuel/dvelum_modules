@@ -130,6 +130,50 @@ class Dvelum_Shop_Image_Medialib extends Dvelum_Shop_Image_AbstractAdapter
      */
     public function getImage($id)
     {
-        return $this->mediaModel->getItem($id);
+        $info = $this->mediaModel->getItem($id);
+
+        if(empty($info)){
+            return [];
+        }
+        $sizes = array_keys($this->mediaModel->getConfig()->get('image')['sizes']);
+
+        $result['id'] = $info['id'];
+        $result['path'] = $info['path'];
+        $result['pics'] = [];
+
+        foreach ($sizes as $size){
+            $result['pics'][$sizes] = Model_Medialib::getImgPath($info['path'], $info['ext'], $size , true);
+        }
+        return $result;
+    }
+
+    /**
+     * Get images info
+     * @param array $ids
+     * @return array
+     */
+    public function getImages(array $ids)
+    {
+        $data = $this->mediaModel->getList(false,['id'=>$ids]);
+
+        if(empty($data)){
+            return [];
+        }
+        $sizes = array_keys($this->mediaModel->getConfig()->get('image')['sizes']);
+        $result = [];
+
+        foreach ($data as $info)
+        {
+            $pics = [];
+            foreach ($sizes as $size){
+                $pics[$size] = Model_Medialib::getImgPath($info['path'], $info['ext'], $size , true);
+            }
+            $result[$info['id']] = [
+                'id' => $info['id'],
+                'path' => $info['path'],
+                'pics' => $pics
+            ];
+        }
+        return $result;
     }
 }

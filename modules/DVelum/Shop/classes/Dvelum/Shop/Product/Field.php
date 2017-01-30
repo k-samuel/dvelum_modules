@@ -83,4 +83,13 @@ class Dvelum_Shop_Product_Field
         }
         return false;
     }
+
+    /**
+     * Get field type
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->config['type'];
+    }
 }

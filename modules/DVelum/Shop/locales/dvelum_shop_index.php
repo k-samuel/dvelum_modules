@@ -39,4 +39,6 @@
   41 => 'product',
   42 => 'active',
   43 => 'images',
+  44 => 'addGoods',
+  45 => 'addImage',
 ); 

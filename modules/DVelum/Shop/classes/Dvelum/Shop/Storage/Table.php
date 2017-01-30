@@ -62,14 +62,8 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
      */
     public function load($id)
     {
-        $item = $this->itemsModel->getItem($id);
-
-        if(empty($item)){
-            $msg = 'Undefined product: '.$id;
-            $this->itemsModel->logError($msg);
-            throw new Exception($msg);
-        }
-
+        $object = Db_Object::factory($this->config->get('items_object'), $id);
+        $item = $object->getData();
         $data = $this->fieldsModel->getList(false, ['item_id'=>$id]);
 
         foreach ($data as $k=>$v){

@@ -13,6 +13,6 @@ return [
         'adapter'=>'Dvelum_Shop_Image_Medialib',
         // path relative uploads directory (main.php -> uploads)
         'file_path' => 'goods/',
-        'category'=>null,
+        'category'=>null
     ]
 ];
