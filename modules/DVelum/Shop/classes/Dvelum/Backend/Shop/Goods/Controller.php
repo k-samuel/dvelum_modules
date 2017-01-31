@@ -128,7 +128,7 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
         try{
             $obj = $storage->load($id);
         }catch(Exception $e){
-            Model::factory($this->_objectName)->logError($e->getMessage());
+            Model::factory($this->getObjectName())->logError($e->getMessage());
             Response::jsonError($this->_lang->get('CANT_EXEC'));
         }
 
@@ -136,7 +136,47 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
 
         $config = $form->backendForm($obj->getConfig());
         $data = $obj->getData();
+        $data['id'] = $obj->getId();
 
+        $images = $obj->get('images');
+        if(!empty($images))
+        {
+            $imageStore = Dvelum_Shop_Image::factory();
+            $images = $imageStore->getImages($images);
+
+            foreach ($images as &$image){
+                $image = [
+                    'id' => $image['id'],
+                    'icon' => $image['pics']['thumbnail']
+                ];
+            }unset($image);
+            $data['images'] = array_values($images);
+        }else{
+            $data['images'] = [];
+        }
+
+        Response::jsonSuccess(['data'=>$data,'config'=>$config]);
+    }
+    /**
+     * Get configuration for new goods by product
+     */
+    public function loadObjectDefaultsAction()
+    {
+        $productId = Request::post('product', Filter::FILTER_INTEGER, false);
+        if(!$productId){
+            Response::jssonError($this->_lang->get('WRONG_REQUEST'));
+        }
+
+        try{
+            $product = Dvelum_Shop_Product::factory($productId);
+        }catch(Exception $e){
+            Model::factory($this->getObjectName())->logError($e->getMessage());
+            Response::jsonError($this->_lang->get('CANT_EXEC'));
+        }
+
+        $form = new Dvelum_Shop_Goods_Form();
+        $config = $form->backendForm($product);
+        $data = ['product'=>$productId];
         Response::jsonSuccess(['data'=>$data,'config'=>$config]);
     }
 }

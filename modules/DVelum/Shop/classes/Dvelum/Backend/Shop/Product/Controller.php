@@ -73,6 +73,14 @@ class Dvelum_Backend_Shop_Product_Controller extends Backend_Controller_Crud
                     $field['group_title']  = $this->getLang()->get('noGroup');
                 }
 
+                if(array_key_exists('minValue', $field) && !strlen((string)$field['minValue'])){
+                    $field['minValue'] = null;
+                }
+
+                if(array_key_exists('maxValue', $field) && !strlen((string)$field['maxValue'])){
+                  $field['maxValue'] = null;
+                }
+
                if(isset($field['list']) && !empty($field['list'])){
                     $listData = [];
                     foreach ($field['list'] as $v){

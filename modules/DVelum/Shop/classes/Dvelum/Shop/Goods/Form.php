@@ -32,7 +32,6 @@ class Dvelum_Shop_Goods_Form
 
     public function backendForm(Dvelum_Shop_Product $product)
     {
-
         $fields = $product->getFields();
 
         $tabs = [];
@@ -50,10 +49,14 @@ class Dvelum_Shop_Goods_Form
               'labelWidth' => 160,
               'anchor'=> '100%'
           ],
-          'items' => []
+          'items' => [
+              [
+                  'xtype'=>'hiddenfield',
+                  'name'=>'product',
+                  'value'=>$product->getId()
+              ]
+          ]
         ];
-
-
 
         foreach ($fields as $field)
         {
@@ -61,38 +64,122 @@ class Dvelum_Shop_Goods_Form
                 continue;
             }
 
-            switch ($field->getType()){
+            $minValue = $field->getMinValue();
+            $maxValue = $field->getMaxValue();
+
+            switch ($field->getType())
+            {
                 case 'number' :
-                    $tabs['general']['items'][] =[
+
+                    $cfg = [
                         'xtype'=>'numberfield',
                         'name' => $field->getName(),
                         'fieldLabel'=> $field->getTitle(),
                         'allowDecimals'=>false
                     ];
+
+                    if(!is_null($minValue)){
+                        $cfg['minValue'] = $minValue;
+                    }
+                    if(!is_null($maxValue)){
+                        $cfg['maxValue'] = $maxValue;
+                    }
+                    if($field->isRequired()){
+                        $cfg['allowBlank'] = false;
+                    }
+
+                    if($field->isMultiValue())
+                    {
+                        $cfg['registerLink'] = true;
+                    }
+
+                    $tabs['general']['items'][] = $cfg;
                     break;
+
                 case 'float' :
-                    $tabs['general']['items'][] =[
+                    $cfg =[
                         'xtype'=>'numberfield',
                         'name' => $field->getName(),
                         'fieldLabel'=> $field->getTitle(),
                         'allowDecimals'=>true
                     ];
+
+                    if(!is_null($minValue)){
+                        $cfg['minValue'] = $minValue;
+                    }
+                    if(!is_null($maxValue)){
+                        $cfg['maxValue'] = $maxValue;
+                    }
+                    if($field->isRequired()){
+                        $cfg['allowBlank'] = false;
+                    }
+
+                    if($field->isMultiValue())
+                    {
+                        $cfg['registerLink'] = true;
+                    }
+
+                    $tabs['general']['items'][] = $cfg;
                     break;
-                case 'string' :
-                    $tabs['general']['items'][] =[
-                        'xtype'=>'textfield',
-                        'name' => $field->getName(),
-                        'fieldLabel'=> $field->getTitle(),
-                    ];
-                    break;
+
                 case 'money':
-                    $tabs['general']['items'][] =[
+
+                    $cfg =[
                         'xtype'=>'numberfield',
                         'name' => $field->getName(),
                         'fieldLabel'=> $field->getTitle(),
                         'allowDecimals'=>true,
                     ];
+
+                    if($field->isRequired()){
+                        $cfg['allowBlank'] = false;
+                    }
+
+                    if($field->isMultiValue())
+                    {
+                        $tabs[] = [
+                            'xtype' => 'multivaluepanel',
+                            'fieldName' => $field->getName(),
+                            'datatype' => 'float',
+                            'title'=> $field->getTitle(),
+                            'frame' =>false,
+                            'fieldConfig'=> $cfg,
+                            'registerLink'=>true
+                        ];
+
+                    }else{
+                        $tabs['general']['items'][] = $cfg;
+                    }
                     break;
+
+                case 'string' :
+                    $cfg =[
+                        'xtype'=>'textfield',
+                        'name' => $field->getName(),
+                        'fieldLabel'=> $field->getTitle(),
+                    ];
+
+                    if($field->isRequired()){
+                        $cfg['allowBlank'] = false;
+                    }
+
+                    if($field->isMultiValue())
+                    {
+                        $tabs[] = [
+                            'xtype' => 'multivaluepanel',
+                            'fieldName' => $field->getName(),
+                            'datatype' => 'string',
+                            'title'=> $field->getTitle(),
+                            'frame' =>false,
+                            'fieldConfig'=> $cfg,
+                            'registerLink'=>true
+                        ];
+
+                    }else{
+                        $tabs['general']['items'][] = $cfg;
+                    }
+                    break;
+
                 case 'boolean':
                     $tabs['general']['items'][] =[
                         'xtype'=>'checkbox',
@@ -102,21 +189,46 @@ class Dvelum_Shop_Goods_Form
                     break;
 
                 case 'list':
+                    $cfg =[
+                        'xtype'=>'combobox',
+                        'name' => $field->getName(),
+                        'fieldLabel'=> $field->getTitle(),
+                        'displayField'=>'id',
+                        'valueField'=>'id',
+                        'store'=> $field->getList()
+                    ];
 
+                    if($field->isRequired()){
+                        $cfg['allowBlank'] = false;
+                    }
+
+                    if($field->isMultiValue())
+                    {
+                        $tabs[] = [
+                            'xtype' => 'multivaluepanel',
+                            'registerLink'=>true,
+                            'fieldName' => $field->getName(),
+                            'datatype' => 'string',
+                            'title'=> $field->getTitle(),
+                            'frame' =>false,
+                            'fieldConfig'=> $cfg
+                        ];
+
+                    }else{
+                        $tabs['general']['items'][] = $cfg;
+                    }
                     break;
                 case 'text':
                     $tabs[] = [
                       'xtype' => 'medialibhtmlpanel',
                       'name' => $field->getName(),
-                      'fieldLabel'=> $field->getTitle(),
-                      'title'=> $field->getName(),
+                      'title'=> $field->getTitle(),
                       'frame' =>false
                     ];
 
                     break;
             }
         }
-
         return array_values($tabs);
     }
 }

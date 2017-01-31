@@ -61,6 +61,14 @@ class Dvelum_Shop_Product_Field
         return $value;
     }
 
+    public function isList()
+    {
+        if($this->config['type'] == 'list'){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Is system field
      * @return boolean
@@ -85,11 +93,67 @@ class Dvelum_Shop_Product_Field
     }
 
     /**
+     * Is required field
+     */
+    public function isRequired()
+    {
+        if(isset($this->config['required']) && $this->config['required']){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get field type
      * @return mixed
      */
     public function getType()
     {
         return $this->config['type'];
+    }
+
+    /**
+     * Get field config
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Get min value
+     * @return integer | null
+     */
+    public function getMinValue()
+    {
+        if(isset($this->config['minValue']) && strlen((string)$this->config['minValue'])){
+            return  $this->config['minValue'];
+        }
+        return null;
+    }
+
+    /**
+     * Get min value
+     * @return integer | null
+     */
+    public function getMaxValue()
+    {
+        if(isset($this->config['maxValue']) && strlen((string)$this->config['maxValue'])){
+            return  $this->config['maxValue'];
+        }
+        return null;
+    }
+
+    /**
+     * Get accepted values
+     * @return []
+     */
+    public function getList()
+    {
+        if(isset($this->config['list']) && !empty($this->config['list'])){
+            return  $this->config['list'];
+        }
+        return [];
     }
 }

@@ -41,4 +41,5 @@
   43 => 'images',
   44 => 'addGoods',
   45 => 'addImage',
+  46 => 'msg_select_product_for_new_goods',
 ); 

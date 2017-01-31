@@ -41,4 +41,5 @@
   'images' => 'Images',
   'addGoods' => 'Add goods',
   'addImage' => 'Add image',
+  'msg_select_product_for_new_goods' => 'Please select product type for new goods.',
 ); 
