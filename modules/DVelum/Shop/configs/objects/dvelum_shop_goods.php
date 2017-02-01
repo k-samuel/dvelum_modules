@@ -109,6 +109,19 @@
       'db_type' => 'boolean',
       'db_default' => 0,
     ),
+    'price' => 
+    array (
+      'type' => '',
+      'unique' => '',
+      'db_isNull' => true,
+      'required' => false,
+      'validator' => '',
+      'db_type' => 'decimal',
+      'db_default' => false,
+      'db_unsigned' => false,
+      'db_scale' => 10,
+      'db_precision' => 2,
+    ),
   ),
   'indexes' => 
   array (

@@ -134,26 +134,8 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
 
         $form = new Dvelum_Shop_Goods_Form();
 
-        $config = $form->backendForm($obj->getConfig());
-        $data = $obj->getData();
-        $data['id'] = $obj->getId();
-
-        $images = $obj->get('images');
-        if(!empty($images))
-        {
-            $imageStore = Dvelum_Shop_Image::factory();
-            $images = $imageStore->getImages($images);
-
-            foreach ($images as &$image){
-                $image = [
-                    'id' => $image['id'],
-                    'icon' => $image['pics']['thumbnail']
-                ];
-            }unset($image);
-            $data['images'] = array_values($images);
-        }else{
-            $data['images'] = [];
-        }
+        $config = $form->backendFormConfig($obj);
+        $data = $form->backendFormData($obj);
 
         Response::jsonSuccess(['data'=>$data,'config'=>$config]);
     }
@@ -178,5 +160,85 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
         $config = $form->backendForm($product);
         $data = ['product'=>$productId];
         Response::jsonSuccess(['data'=>$data,'config'=>$config]);
+    }
+
+    public function editAction()
+    {
+        $this->_checkCanEdit();
+
+        $id = Request::post('id' ,'integer', false);
+        $product = Request::post('product' ,'integer', false);
+
+        if(!$product){
+            Response::jsonError($this->_lang->get('FILL_FORM'),['product'=>$this->_lang->get('CANT_BE_EMPTY')]);
+        }
+
+        $storage = Dvelum_Shop_Storage::factory();
+        try{
+            if($id){
+                $obj = $storage->load($id);
+            }else{
+                $obj = Dvelum_Shop_Goods::factory($product);
+            }
+        }catch(Exception $e){
+            Model::factory($this->getObjectName())->logError($e->getMessage());
+            Response::jsonError($this->_lang->get('CANT_EXEC'));
+        }
+
+        $this->applyPostedData($obj);
+
+        if(!$storage->save($obj)){
+            Response::jsonError($this->_lang->get('CANT_EXEC'));
+        }else{
+            Response::jsonSuccess(['id'=>$obj->getId()]);
+        }
+    }
+
+    protected function applyPostedData(Dvelum_Shop_Goods $object)
+    {
+        $productConfig = $object->getConfig();
+        $fields = $productConfig->getFields();
+        $errors = [];
+
+        $posted = Request::postArray();
+
+        foreach ($fields as $field)
+        {
+            $name = $field->getName();
+
+            if($name == 'id')
+                continue;
+
+            if(
+                $field->isRequired()
+                    && (
+                        !isset($posted[$name])
+                        ||
+                        (is_string($posted[$name]) && !strlen($posted[$name]))
+                        ||
+                        (is_array($posted[$name] && empty($posted[$name])))
+                     )
+            ){
+                $errors[$name] = $this->_lang->get('CANT_BE_EMPTY');
+                continue;
+            }
+
+            if($field->isBoolean() && !isset($posted[$name]))
+                $posted[$name] = false;
+
+            if(!array_key_exists($name , $posted)){
+                continue;
+            }
+
+            try{
+                $object->set($name , $posted[$name]);
+            }catch(Exception $e){
+                $errors[$name] = $this->_lang->get('INVALID_VALUE');
+            }
+        }
+
+        if(!empty($errors)){
+            Response::jsonError($this->_lang->get('FILL_FORM') , $errors);
+        }
     }
 }

@@ -156,4 +156,17 @@ class Dvelum_Shop_Product_Field
         }
         return [];
     }
+
+    /**
+     * Check field type
+     * @return bool
+     */
+    public function isBoolean()
+    {
+        if($this->config['type'] ==='boolean'){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

@@ -64,19 +64,41 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
     {
         $object = Db_Object::factory($this->config->get('items_object'), $id);
         $item = $object->getData();
+
         $data = $this->fieldsModel->getList(false, ['item_id'=>$id]);
 
-        foreach ($data as $k=>$v){
-            if(!isset($item[$k['field']])){
-                $item[$k['field']] = $v['value'];
+        $productCode = $item['product'];
+
+        $goodsObject = Dvelum_Shop_Goods::factory($productCode);
+        $product = $goodsObject->getConfig();
+
+        $itemData = $object->getData();
+
+        foreach ($data as $item)
+        {
+            $field = $item['field'];
+            if($product->fieldExist($field))
+            {
+                $fieldConfig = $product->getField($field);
+                if($fieldConfig->isMultiValue())
+                {
+                    if(!isset($itemData[$field])){
+                        $itemData[$field] = [];
+                    }
+                    $itemData[$field][] = $item['value'];
+                }else{
+                    $itemData[$field] = $item['value'];
+                }
+            }else{
+                if(isset($itemData[$field]) && !is_array($itemData[$field])){
+                    $itemData[$field] = [$itemData[$field],$item['value']];
+                }else{
+                    $itemData[$field] = $item['value'];
+                }
             }
         }
-
-        $productCode = $item['product'];
-        $object = Dvelum_Shop_Goods::factory($productCode);
-        $object->setRawData($item);
-
-        return $object;
+        $goodsObject->setRawData($itemData);
+        return $goodsObject;
     }
     /**
      * Load multiple items
@@ -167,13 +189,14 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
             $itemsDb->beginTransaction();
             $o = Db_Object::factory($this->config->get('items_object'), $item->getId());
             $o->setValues($system);
+
             if(!$o->save(false)){
-                throw new Exception('Cannot save '.$this->config->get('items_object'));
-                $itemsDb->rollBack();
-                return false;
+               $itemsDb->rollBack();
+               throw new Exception('Cannot save '.$this->config->get('items_object'));
             }
             $id = $o->getId();
             $item->setId($id);
+
             foreach ($properties as $k=>&$v){
                 $v['item_id'] = $id;
             }unset($v);

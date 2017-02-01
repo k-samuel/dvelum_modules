@@ -49,4 +49,14 @@ class Dvelum_Shop_Product_Field_Text extends Dvelum_Shop_Product_Field_String
         }
         return true;
     }
+
+    /**
+     * Filter value
+     * @param mixed $value
+     * @return mixed
+     */
+    public function filter($value)
+    {
+      return $value;
+    }
 }

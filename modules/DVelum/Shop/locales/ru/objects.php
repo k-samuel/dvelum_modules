@@ -51,6 +51,7 @@
       'external_code' => 'ID  Внешней системы',
       'images' => 'Изображения',
       'enabled' => 'Активен',
+      'price' => 'Цена',
     ),
   ),
   'dvelum_shop_goods_properties' => 
