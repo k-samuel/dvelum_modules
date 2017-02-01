@@ -134,7 +134,7 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
 
         $form = new Dvelum_Shop_Goods_Form();
 
-        $config = $form->backendFormConfig($obj);
+        $config = $form->backendFormConfig($obj->getConfig());
         $data = $form->backendFormData($obj);
 
         Response::jsonSuccess(['data'=>$data,'config'=>$config]);
@@ -157,7 +157,7 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
         }
 
         $form = new Dvelum_Shop_Goods_Form();
-        $config = $form->backendForm($product);
+        $config = $form->backendFormConfig($product);
         $data = ['product'=>$productId];
         Response::jsonSuccess(['data'=>$data,'config'=>$config]);
     }

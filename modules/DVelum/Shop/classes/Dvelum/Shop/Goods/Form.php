@@ -46,9 +46,8 @@ class Dvelum_Shop_Goods_Form
         'store' =>  []
     ];
 
-    public function backendFormConfig(Dvelum_Shop_Goods $object)
+    public function backendFormConfig(Dvelum_Shop_Product $product)
     {
-        $product = $object->getConfig();
         $fields = $product->getFields();
 
         $tabs = [];
