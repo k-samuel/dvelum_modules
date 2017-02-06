@@ -51,4 +51,11 @@ abstract class Dvelum_Shop_Storage_AbstractAdapter
      * @return integer
      */
     abstract public function count($filters = false, $query = false);
+
+    /**
+     * Delete item
+     * @param Dvelum_Shop_Goods $item
+     * @return boolean
+     */
+    abstract public function delete(Dvelum_Shop_Goods $item);
 }

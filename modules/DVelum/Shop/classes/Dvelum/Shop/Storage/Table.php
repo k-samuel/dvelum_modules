@@ -388,4 +388,33 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
         }
         $sql->where('`id` IN('.substr($subSelect->__toString(),0,-1).')');
     }
+
+
+    /**
+     * Delete item
+     * @param Dvelum_Shop_Goods $item
+     * @return boolean
+     */
+     public function delete(Dvelum_Shop_Goods $item)
+     {
+        try{
+            $db = $this->itemsModel->getDbConnection();
+            $db->beginTransaction();
+
+            $o = Db_Object::factory($this->config->get('items_object'), $item->getId());
+
+            if(!$o->delete(false)){
+                throw new Exception('Cannot delete object ', $o->getId());
+            }
+
+            $fieldsDb = $this->fieldsModel->getDbConnection();
+            $fieldsDb->delete($this->fieldsModel->table(),'item_id ='.intval($item->getId()));
+            $db->commit();
+        }catch (Exception $e){
+            $this->itemsModel->logError($e->getMessage());
+            $db->rollBack();
+            return false;
+        }
+        return true;
+     }
 }

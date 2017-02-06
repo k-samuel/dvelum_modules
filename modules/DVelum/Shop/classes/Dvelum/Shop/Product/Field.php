@@ -169,4 +169,17 @@ class Dvelum_Shop_Product_Field
             return false;
         }
     }
+
+    /**
+     * Get field group
+     * @return string
+     */
+    public function getGroup()
+    {
+        if(isset($this->config['group'])){
+            return $this->config['group'];
+        }else{
+            return '';
+        }
+    }
 }

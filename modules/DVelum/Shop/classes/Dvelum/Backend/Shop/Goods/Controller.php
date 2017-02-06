@@ -241,4 +241,31 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
             Response::jsonError($this->_lang->get('FILL_FORM') , $errors);
         }
     }
+
+    /**
+     * Delete object
+     * Sends JSON reply in the result and
+     * closes the application
+     */
+    public function deleteAction()
+    {
+        $this->_checkCanDelete();
+        $id = Request::post('id' , 'integer' , false);
+
+        if(!$id)
+            Response::jsonError($this->_lang->get('WRONG_REQUEST'));
+
+        $storage = Dvelum_Shop_Storage::factory();
+
+        try{
+            $object = $storage->load($id);
+        }catch(Exception $e){
+            Response::jsonError($this->_lang->get('WRONG_REQUEST'));
+        }
+
+        if(!$storage->delete($object))
+            Response::jsonError($this->_lang->get('CANT_EXEC'));
+
+        Response::jsonSuccess();
+    }
 }

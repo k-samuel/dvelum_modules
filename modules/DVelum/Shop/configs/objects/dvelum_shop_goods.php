@@ -6,7 +6,7 @@
   'parent_object' => '',
   'rev_control' => false,
   'save_history' => false,
-  'link_title' => '',
+  'link_title' => '{model} {title}',
   'disable_keys' => false,
   'readonly' => false,
   'locked' => false,
