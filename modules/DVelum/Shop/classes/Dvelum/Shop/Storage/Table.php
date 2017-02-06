@@ -108,11 +108,8 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
      */
     public function loadItems(array $id)
     {
-        $goods = $this->itemsModel->getList(false,['id'=>$id]);
+        $goods = Db_Object::factory($this->config->get('items_object'), $id);
         $fields = $this->fieldsModel->getList(false,['item_id'=>$id]);
-        if(!empty($goods)){
-            $goods = Utils::rekey('id', $goods);
-        }
         if(!empty($fields)){
             $fields = Utils::groupByKey('item_id', $fields);
         }
@@ -123,7 +120,7 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
             if(!isset($goods[$itemId])){
                 throw new Exception('Undefined Goods ID:'.$itemId);
             }
-            $itemData = $goods[$itemId];
+            $itemData = $goods[$itemId]->getData();
 
             if(isset($fields[$itemId])){
                 foreach ($fields[$itemId] as $property){
