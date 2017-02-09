@@ -3,8 +3,8 @@ $page =  $this->get('page');
 $resource = $this->get('resource');
 $lang = $this->get('lang');
 $resource->addJS('/js/lib/jquery-2.0.0.min.js');
-$resource->addJS('/resources/dvelum_password_recovery/js/password.js');
-$resource->addCss('/resources/dvelum_password_recovery/css/recovery.css');
+$resource->addJS('/resources/dvelum_passwordrecovery/js/password.js');
+$resource->addCss('/resources/dvelum_passwordrecovery/css/recovery.css',100);
 
 
 ?>

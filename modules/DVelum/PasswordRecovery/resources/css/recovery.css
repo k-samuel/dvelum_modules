@@ -7158,3 +7158,8 @@ td.visible-print {
     margin-right: 10px;
     line-height: 1
 }
+
+.form-wrapper {
+    margin: 10px auto;
+    width: 400px
+}

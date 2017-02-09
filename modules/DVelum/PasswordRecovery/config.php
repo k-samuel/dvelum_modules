@@ -1,6 +1,6 @@
 <?php
 return [
-    'id' => 'dvelum_password_recovery',
+    'id' => 'dvelum_passwordrecovery',
     'version' => '1.0.0',
     'author' => 'Kirill Egorov',
     'name' => 'DVelum Password Recovery',

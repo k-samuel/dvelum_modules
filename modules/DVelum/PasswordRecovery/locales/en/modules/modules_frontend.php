@@ -1,5 +1,4 @@
 <?php
 return [
-  'dvelum_articles' => 'Articles',
-  'dvelum_articles_item' => 'Article page'
+    'dvelum_password_recovery' => 'Password recovery'
 ];
