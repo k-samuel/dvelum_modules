@@ -19,7 +19,7 @@
  */
 class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
 {
-    protected $_listFields = ["title","id","model","product"];
+    protected $_listFields = ["title","id","model","product",'images'];
     protected $_canViewObjects = ["dvelum_shop_category","dvelum_shop_product"];
 
     public function getModule()
@@ -63,8 +63,19 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
 
             $productIds = Utils::fetchCol('product', $data);
             $products = Db_Object::factory('Dvelum_Shop_Product', $productIds);
+
+            $imageStore = Dvelum_Shop_Image::factory();
+
             foreach ($data as $k=>&$v)
             {
+                if(!empty($v['images'])){
+                    $images = $imageStore->getImages($v['images']);
+                    if(!empty($images)){
+                        $images = array_values($images);
+                        $v['img'] = $images[0]['pics']['icon'];
+                    }
+                }
+                unset($v['images']);
                 if(isset($products[$v['product']])){
                     $v['product_title'] = $products[$v['product']]->getTitle();
                 }
