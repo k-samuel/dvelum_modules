@@ -182,4 +182,16 @@ class Dvelum_Shop_Product_Field
             return '';
         }
     }
+
+    /**
+     * Check field unique
+     */
+    public function isUnique()
+    {
+        if(isset($this->config['unique']) && $this->config['unique']){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

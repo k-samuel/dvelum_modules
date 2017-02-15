@@ -8,7 +8,8 @@ return [
         'minValue'=> 1,
         'required' => true,
         'lazyLang' => false,
-        'group' => 'system'
+        'group' => 'system',
+        'unique'=>1
     ],
     'price' => [
         'name'=>'price',

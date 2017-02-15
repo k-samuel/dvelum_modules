@@ -42,4 +42,10 @@
   'addGoods' => 'Add goods',
   'addImage' => 'Add image',
   'msg_select_product_for_new_goods' => 'Please select product type for new goods.',
+  'set_goods_value' => 'Set field value for all selected goods',
+  'set_field_value' => 'Set property',
+  'goods_selected' => 'Goods selected',
+  'msg_only_common_fields' => 'Set the value of a common field for all the selected products.',
+  'goods_updated' => 'Goods updated',
+  'failed_to_update' => 'Failed to update',
 ); 

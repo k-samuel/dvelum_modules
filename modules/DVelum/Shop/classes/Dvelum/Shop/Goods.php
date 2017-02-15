@@ -148,6 +148,14 @@ class Dvelum_Shop_Goods
     {
         return $this->config;
     }
+    /**
+     * Get Product configuration object
+     * @return Dvelum_Shop_Product
+     */
+    public function getProduct()
+    {
+        return $this->getConfig();
+    }
 
     /**
      * Set Item data, skip validation

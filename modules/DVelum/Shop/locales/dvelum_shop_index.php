@@ -42,4 +42,10 @@
   44 => 'addGoods',
   45 => 'addImage',
   46 => 'msg_select_product_for_new_goods',
+  48 => 'set_goods_value',
+  49 => 'set_field_value',
+  50 => 'goods_selected',
+  51 => 'msg_only_common_fields',
+  52 => 'goods_updated',
+  53 => 'failed_to_update',
 ); 

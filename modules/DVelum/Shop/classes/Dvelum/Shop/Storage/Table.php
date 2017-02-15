@@ -113,7 +113,6 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
         if(!empty($fields)){
             $fields = Utils::groupByKey('item_id', $fields);
         }
-
         $result = [];
         foreach ($id as $itemId)
         {

@@ -46,6 +46,127 @@ class Dvelum_Shop_Goods_Form
         'store' =>  []
     ];
 
+    /**
+     * Create Ext.data.Field configuration object for Product Field
+     * @param Dvelum_Shop_Product_Field $field
+     * @return array
+     */
+    public function backendFieldConfig(Dvelum_Shop_Product_Field $field)
+    {
+        $minValue = $field->getMinValue();
+        $maxValue = $field->getMaxValue();
+
+        $cfg = [
+            'name' => $field->getName(),
+            'fieldLabel'=> $field->getTitle(),
+        ];
+
+        if($field->isRequired()){
+            $cfg['allowBlank'] = false;
+        }
+
+        switch ($field->getType())
+        {
+            case 'number' :
+
+                $cfg['xtype'] ='numberfield';
+                $cfg['allowDecimals'] = false;
+
+                if(!is_null($minValue)){
+                    $cfg['minValue'] = $minValue;
+                }
+                if(!is_null($maxValue)){
+                    $cfg['maxValue'] = $maxValue;
+                }
+                if($field->isRequired()){
+                    $cfg['allowBlank'] = false;
+                }
+
+                if($field->isMultiValue()) {
+                    $cfg = array_merge($cfg, $this->tagFieldConfig);
+                    $cfg['name'].='[]';
+                }
+
+                break;
+
+            case 'float' :
+            case 'money':
+
+                $cfg['xtype'] ='numberfield';
+                $cfg['allowDecimals'] = true;
+
+                if(!is_null($minValue)){
+                    $cfg['minValue'] = $minValue;
+                }
+                if(!is_null($maxValue)){
+                    $cfg['maxValue'] = $maxValue;
+                }
+                if($field->isRequired()){
+                    $cfg['allowBlank'] = false;
+                }
+
+                if($field->isMultiValue()) {
+                    $cfg = array_merge($cfg, $this->tagFieldConfig);
+                    $cfg['name'].='[]';
+                }
+
+                break;
+
+            case 'string' :
+                $cfg['xtype'] ='textfield';
+
+                if($field->isRequired()){
+                    $cfg['allowBlank'] = false;
+                }
+
+                if($field->isMultiValue()) {
+                    $cfg = array_merge($cfg, $this->tagFieldConfig);
+                    $cfg['name'].='[]';
+                }
+
+                break;
+
+            case 'boolean':
+                $cfg =[
+                    'xtype'=>'checkbox',
+                    'name' => $field->getName(),
+                    'fieldLabel'=> $field->getTitle(),
+                ];
+                break;
+
+            case 'list':
+                $cfg['xtype'] ='combobox';
+                $cfg['displayField'] = 'id';
+                $cfg['valueField'] = 'id';
+
+                if($field->isRequired()){
+                    $cfg['allowBlank'] = false;
+                }
+
+                if($field->isMultiValue()) {
+                    $cfg = array_merge($cfg, $this->tagFieldConfig);
+                    $cfg['forceSelection'] = true;
+                    $cfg['hideTrigger'] = false;
+                    $cfg['editable'] = false;
+                    $cfg['createNewOnEnter'] = false;
+                    $cfg['selectOnFocus'] = false;
+                    $cfg['name'].='[]';
+                }
+                $cfg['store'] = $field->getList();
+                break;
+            case 'text':
+                $cfg = [
+                    'xtype' => 'medialibhtmlpanel',
+                    'name' => $field->getName(),
+                    'editorName'  => $field->getName(),
+                    'title'=> $field->getTitle(),
+                    'frame' =>false
+                ];
+                break;
+        }
+        return $cfg;
+    }
+
     public function backendFormConfig(Dvelum_Shop_Product $product)
     {
         $fields = $product->getFields();
@@ -96,127 +217,22 @@ class Dvelum_Shop_Goods_Form
               'xtype'=>'fieldset',
               'title'=> $group['title'],
               'collapsible'=> true,
-             // 'defaults'=> ['columnWidth'=>0.5],
               'layout'=> 'anchor',
               'items'=>[]
             ];
 
-            foreach ($fields as $field)
-            {
-                if($field->getName() == 'id' || $field->getName() == 'images'){
+            foreach ($fields as $field) {
+
+                if ($field->getName() == 'id' || $field->getName() == 'images') {
                     continue;
                 }
 
-                $minValue = $field->getMinValue();
-                $maxValue = $field->getMaxValue();
+                $cfg = $this->backendFieldConfig($field);
 
-                $cfg = [
-                    'name' => $field->getName(),
-                    'fieldLabel'=> $field->getTitle(),
-                ];
-
-                switch ($field->getType())
-                {
-                    case 'number' :
-
-                        $cfg['xtype'] ='numberfield';
-                        $cfg['allowDecimals'] = false;
-
-                        if(!is_null($minValue)){
-                            $cfg['minValue'] = $minValue;
-                        }
-                        if(!is_null($maxValue)){
-                            $cfg['maxValue'] = $maxValue;
-                        }
-                        if($field->isRequired()){
-                            $cfg['allowBlank'] = false;
-                        }
-
-                        if($field->isMultiValue()) {
-                            $cfg = array_merge($cfg, $this->tagFieldConfig);
-                            $cfg['name'].='[]';
-                        }
-
-                        $groupField['items'][] = $cfg;
-                        break;
-
-                    case 'float' :
-                    case 'money':
-
-                        $cfg['xtype'] ='numberfield';
-                        $cfg['allowDecimals'] = true;
-
-                        if(!is_null($minValue)){
-                            $cfg['minValue'] = $minValue;
-                        }
-                        if(!is_null($maxValue)){
-                            $cfg['maxValue'] = $maxValue;
-                        }
-                        if($field->isRequired()){
-                            $cfg['allowBlank'] = false;
-                        }
-
-                        if($field->isMultiValue()) {
-                            $cfg = array_merge($cfg, $this->tagFieldConfig);
-                            $cfg['name'].='[]';
-                        }
-
-                        $groupField['items'][] = $cfg;
-                        break;
-
-                    case 'string' :
-                        $cfg['xtype'] ='textfield';
-
-                        if($field->isRequired()){
-                            $cfg['allowBlank'] = false;
-                        }
-
-                        if($field->isMultiValue()) {
-                            $cfg = array_merge($cfg, $this->tagFieldConfig);
-                            $cfg['name'].='[]';
-                        }
-
-                        $groupField['items'][] = $cfg;
-                        break;
-
-                    case 'boolean':
-                        $groupField['items'][] =[
-                            'xtype'=>'checkbox',
-                            'name' => $field->getName(),
-                            'fieldLabel'=> $field->getTitle(),
-                        ];
-                        break;
-
-                    case 'list':
-                        $cfg['xtype'] ='combobox';
-                        $cfg['displayField'] = 'id';
-                        $cfg['valueField'] = 'id';
-
-                        if($field->isRequired()){
-                            $cfg['allowBlank'] = false;
-                        }
-
-                        if($field->isMultiValue()) {
-                            $cfg = array_merge($cfg, $this->tagFieldConfig);
-                            $cfg['forceSelection'] = true;
-                            $cfg['hideTrigger'] = false;
-                            $cfg['editable'] = false;
-                            $cfg['createNewOnEnter'] = false;
-                            $cfg['selectOnFocus'] = false;
-                            $cfg['name'].='[]';
-                        }
-                        $cfg['store'] = $field->getList();
-                        $groupField['items'][] = $cfg;
-                        break;
-                    case 'text':
-                        $tabs[] = [
-                            'xtype' => 'medialibhtmlpanel',
-                            'name' => $field->getName(),
-                            'editorName'  => $field->getName(),
-                            'title'=> $field->getTitle(),
-                            'frame' =>false
-                        ];
-                        break;
+                if ($field->getType() == 'text') {
+                    $tabs[] = $cfg;
+                } else{
+                    $groupField['items'][] = $cfg;
                 }
             }
 

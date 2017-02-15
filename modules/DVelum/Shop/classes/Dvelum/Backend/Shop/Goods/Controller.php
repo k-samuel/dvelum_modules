@@ -279,4 +279,139 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
 
         Response::jsonSuccess();
     }
+
+    /**
+     * Get common fields for selected goods
+     */
+    public function commonFieldsAction()
+    {
+        $id = Request::post('id','array',[]);
+        if(empty($id) || !is_array($id)){
+            Response::jsonError($this->_lang->get('WRONG_REQUEST'));
+        }
+        $id = array_map('intval', $id);
+
+        $storage = Dvelum_Shop_Storage::factory();
+
+        try{
+            $list = $storage->loadItems($id);
+        }catch (Exception $e){
+            Model::factory($this->_objectName)->logError($e->getMessage());
+            $this->_lang->get('CANT_EXEC');
+        }
+
+        if(empty($list)){
+            Response::jsonSuccess([]);
+        }
+        /**
+         * @var Dvelum_Shop_Product[] $products
+         */
+        $products = [];
+        // collect products
+        foreach ($list as $k=>$item)
+        {
+            $product = $item->getProduct();
+            $productId = $product->getId();
+
+            if(!isset($products[$productId])){
+                $products[$productId] = $product;
+            }
+        }
+
+        $commonFields = [];
+        $isFirst = true;
+        $firstProduct = false;
+        foreach ($products as $product)
+        {
+            /**
+             * @var Dvelum_Shop_Product_Field[] $fields
+             */
+            $fields = $product->getFields();
+            if($isFirst){
+                $firstProduct = $product;
+                foreach ($fields as $name => $item){
+                    // skip unique fields
+                    if($item->isUnique() || ($name=='images' && $item->isSystem())){
+                        continue;
+                    }
+                    $commonFields[$name] = $item->getType();
+                }
+                $isFirst = false;
+            }else{
+               /*
+                * Delete field from common if another product has no such field or data types are different
+                */
+               foreach ($commonFields as $name=>$type){
+                   if(!isset($fields[$name]) || $fields[$name]->getType()!==$commonFields[$name]){
+                       unset($commonFields[$name]);
+                   }
+               }
+            }
+        }
+
+        $result = [];
+        if(!empty($commonFields)){
+            $formBuilder = new Dvelum_Shop_Goods_Form();
+            foreach ($commonFields as $name=>$type){
+                $field = $firstProduct->getField($name);
+                if($field->getType() == 'text'){
+                    continue;
+                }
+                $cfg = $formBuilder->backendFieldConfig($field);
+                $cfg['fieldLabel'] = $this->_lang->get('VALUE');
+                if($field->isMultiValue()){
+                    $cfg['name'] = 'value[]';
+                }else{
+                    $cfg['name'] = 'value';
+                }
+                $result[] = ['name'=>$name,'title'=>$field->getTitle(),'cfg'=>$cfg];
+            }
+        }
+
+        Response::jsonSuccess($result);
+    }
+    /**
+     * Set field value for selected goods
+     */
+    public function setCommonFieldValuesAction()
+    {
+        $this->_checkCanEdit();
+
+        $id = Request::post('id','array',[]);
+        if(empty($id) || !is_array($id)){
+            Response::jsonError($this->_lang->get('WRONG_REQUEST'));
+        }
+        $id = array_map('intval', $id);
+        $field = Request::post('field','string','');
+        $value = Request::post('value','raw',null);
+
+        if(empty($field)){
+            Response::jsonError($this->_lang->get('FILL_FORM'),['field'=>$this->_lang->get('CANT_BE_EMPTY')]);
+        }
+
+        $storage = Dvelum_Shop_Storage::factory();
+        try{
+            $list = $storage->loadItems($id);
+        }catch (Exception $e){
+            Model::factory($this->_objectName)->logError($e->getMessage());
+            $this->_lang->get('CANT_EXEC');
+        }
+
+        $count = 0;
+        $failed = [];
+
+        foreach ($list as $item){
+            try{
+                $item->set($field, $value);
+                if(!$storage->save($item)){
+                    throw new Exception('Cannot save '.$item->getId());
+                }
+                $count++;
+            }catch (Exception $e){
+                $failed[] = $item->getId();
+                Model::factory($this->_objectName)->logError($e->getMessage());
+            }
+        }
+        Response::jsonSuccess(['count'=>$count,'fails'=>implode(', ',$failed)]);
+    }
 }
