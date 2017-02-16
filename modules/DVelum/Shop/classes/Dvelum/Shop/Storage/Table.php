@@ -161,13 +161,17 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
             if($field->isSystem()){
                 $system[$name] = $data[$name];
             }else{
-                if($field->isMultiValue()){
-                    foreach ($data[$name] as $val){
-                        $properties[] = [
-                            'product_id'=> $productCode,
-                            'value' => $val,
-                            'field' => $name
-                        ];
+                if($field->isMultiValue())
+                {
+                    if(!empty($data[$name]))
+                    {
+                        foreach ($data[$name] as $val){
+                            $properties[] = [
+                                'product_id'=> $productCode,
+                                'value' => $val,
+                                'field' => $name
+                            ];
+                        }
                     }
                 }else{
                     $properties[] = [

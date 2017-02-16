@@ -48,4 +48,7 @@
   51 => 'msg_only_common_fields',
   52 => 'goods_updated',
   53 => 'failed_to_update',
+  54 => 'change_product_type',
+  55 => 'change_product_tooltip',
+  56 => 'msg_change_product',
 ); 

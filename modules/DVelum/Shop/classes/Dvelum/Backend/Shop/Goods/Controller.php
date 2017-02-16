@@ -414,4 +414,61 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
         }
         Response::jsonSuccess(['count'=>$count,'fails'=>implode(', ',$failed)]);
     }
+
+    /**
+     * Change product for selected goods
+     */
+    public function changeProductAction()
+    {
+        $this->_checkCanEdit();
+
+        $id = Request::post('id','array',[]);
+        $product = Request::post('product','int',false);
+        if(empty($id) || !is_array($id) || empty($product)){
+            Response::jsonError($this->_lang->get('WRONG_REQUEST'));
+        }
+        $id = array_map('intval', $id);
+
+        $storage = Dvelum_Shop_Storage::factory();
+        try{
+            $list = $storage->loadItems($id);
+        }catch (Exception $e){
+            Model::factory($this->_objectName)->logError($e->getMessage());
+            $this->_lang->get('CANT_EXEC');
+        }
+
+        $count = 0;
+        $failed = [];
+
+        try{
+            $productObject = Dvelum_Shop_Product::factory($product);
+        }catch (Exception $e){
+            Response::jsonError($this->_lang('FILL_FORM'),['product'=>$this->_lang->get('INVALID_VALUE')]);
+        }
+
+
+        foreach ($list as $item)
+        {
+            try{
+                $newItem = Dvelum_Shop_Goods::factory($product);
+                $newItem->setId($item->getId());
+                $data = $item->getData();
+                // copy values
+                foreach ($data as $name=>$value)
+                {
+                    if($productObject->fieldExist($name)){
+                        $newItem->set($name,$value);
+                    }
+                }
+                if(!$storage->save($newItem)){
+                    throw new Exception('Cannot save '.$newItem->getId());
+                }
+                $count++;
+            }catch (Exception $e){
+                $failed[] = $item->getId();
+                Model::factory($this->_objectName)->logError($e->getMessage());
+            }
+        }
+        Response::jsonSuccess(['count'=>$count,'fails'=>implode(', ',$failed)]);
+    }
 }

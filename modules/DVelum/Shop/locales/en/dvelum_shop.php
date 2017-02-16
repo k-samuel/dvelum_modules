@@ -48,4 +48,7 @@
   'msg_only_common_fields' => 'Set the value of a common field for all the selected products.',
   'goods_updated' => 'Goods updated',
   'failed_to_update' => 'Failed to update',
+  'change_product_type' => 'Change product type',
+  'change_product_tooltip' => 'Change product type for all selected goods',
+  'msg_change_product' => 'Note that data fields of the product that are not exist in the new product will be deleted.',
 ); 

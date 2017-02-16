@@ -47,6 +47,7 @@ class Dvelum_Shop_Goods
     {
         $this->code = $code;
         $this->config = Dvelum_Shop_Product::factory($code);
+        $this->data['product'] = $code;
     }
 
     /**
