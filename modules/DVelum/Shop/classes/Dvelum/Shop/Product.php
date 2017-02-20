@@ -77,18 +77,23 @@ class Dvelum_Shop_Product
 
     static public function init()
     {
-        $config = Config::storage()->get('dvelum_shop.php')->get('product_config');
-        $systemFields = Config::storage()->get('dvelum_shop_fields.php')->__toArray();
+        $moduleConfig = Config::storage()->get('dvelum_shop.php');
+        $productConfig = $moduleConfig->get('product_config');
+        $goodsConfig = $moduleConfig->get('goods');
+
+        $fieldsConfigFile = $goodsConfig['system_fields'];
+        $systemFields = Config::storage()->get($fieldsConfigFile)->__toArray();
+
         $systemGroups = Config::storage()->get('dvelum_shop_field_groups.php')->__toArray();
         $appConfig = Config::storage()->get('main.php');
 
-        $config['fields'] = $systemFields;
-        $config['groups'] = $systemGroups;
+        $productConfig['fields'] = $systemFields;
+        $productConfig['groups'] = $systemGroups;
 
-        Lang::addDictionaryLoader($config['lang'], $appConfig->get('language').'/'. $config['lang'].'.php', Config::File_Array);
+        Lang::addDictionaryLoader($productConfig['lang'], $appConfig->get('language').'/'. $productConfig['lang'].'.php', Config::File_Array);
 
-        static::$lang = Lang::lang($config['lang']);
-        static::$config = $config;
+        static::$lang = Lang::lang($productConfig['lang']);
+        static::$config = $productConfig;
         static::$initialized = true;
     }
     /**

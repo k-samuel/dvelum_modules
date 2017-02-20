@@ -1,6 +1,9 @@
 <?php
 return [
-    'product_config'=> [
+    'goods' =>[
+        'system_fields'=>'dvelum_shop_fields.php',
+    ],
+    'product_config' => [
         'object'=>'Dvelum_Shop_Product',
         'lang'=>'dvelum_shop',
     ],
