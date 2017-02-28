@@ -176,4 +176,68 @@ class Dvelum_Shop_Image_Medialib extends Dvelum_Shop_Image_AbstractAdapter
         }
         return $result;
     }
+
+    /**
+     * Upload images
+     * @return array
+     */
+    public function uploadImages()
+    {
+        $uploadCategory =  $this->config->get('category');
+
+        if(!$uploadCategory)
+            $uploadCategory = null;
+
+        $appConfig = Config::storage()->get('main.php');
+        $docRoot = $appConfig->get('wwwpath');
+        $mediaModel = Model::factory('Medialib');
+        $mediaCfg = $mediaModel->getConfig()->__toArray();
+        $mediaCfg = ['image'=>$mediaCfg['image']];
+
+
+        $uploadDir = $this->storagePath. date('Y') . '/' . date('m') . '/' . date('d') . '/' . User::getInstance()->getId().'/';
+
+        if(!is_dir($uploadDir) && !@mkdir($uploadDir, 0775, true))
+        {
+            $this->mediaModel->logError('Cannot write to'.$uploadDir);
+            return false;
+        }
+
+        $files = Request::files();
+
+        $uploader = new Upload($mediaCfg);
+
+        if(empty($files)){
+            return false;
+        }
+
+        $uploaded = $uploader->start($files, $uploadDir);
+
+        if(empty($uploaded)){
+            return false;
+        }
+
+        $data = [];
+
+        foreach ($uploaded as $k=>&$v)
+        {
+            $path = str_replace($docRoot , '/' , $v['path']);
+
+            $id =  $mediaModel->addItem($v['title'] , $path , $v['size'] , $v['type'] ,$v['ext']  , $uploadCategory);
+
+            $item = Model::factory('Medialib')->getItem($id);
+
+            if($item['type'] == 'image')
+                $item['srcpath'] = Model_Medialib::addWebRoot(str_replace($item['ext'],'',$item['path']));
+            else
+                $item['srcPath'] = '';
+
+            $item['thumbnail'] = Model_Medialib::getImgPath($item['path'] , $item['ext'] , 'thumbnail' , true);
+            $item['icon'] = Model_Medialib::getImgPath($item['path'] , $item['ext'] , 'icon' , true);
+            $item['path'] = Model_Medialib::addWebRoot($item['path']);
+
+            $data[] = $item;
+        }
+       return $data;
+    }
 }

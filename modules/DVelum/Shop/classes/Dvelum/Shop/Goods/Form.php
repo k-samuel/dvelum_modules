@@ -46,6 +46,17 @@ class Dvelum_Shop_Goods_Form
         'store' =>  []
     ];
 
+
+    /**
+     * Prepare goods data
+     * @param Dvelum_Shop_Goods $object
+     * @return array
+     */
+    public function frontendFormData(Dvelum_Shop_Goods $object)
+    {
+        return $this->backendFormData($object);
+    }
+
     /**
      * Create Ext.data.Field configuration object for Product Field
      * @param Dvelum_Shop_Product_Field $field

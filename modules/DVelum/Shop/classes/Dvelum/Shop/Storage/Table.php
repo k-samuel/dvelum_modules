@@ -417,4 +417,15 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
         }
         return true;
      }
+
+
+    /**
+     * Check item ID
+     * @param $id
+     * @return boolean
+     */
+     public function itemExist($id)
+     {
+        return (boolean)$this->count(['id'=>$id]);
+     }
 }

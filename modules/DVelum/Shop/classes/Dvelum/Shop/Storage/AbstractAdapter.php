@@ -21,6 +21,13 @@ abstract class Dvelum_Shop_Storage_AbstractAdapter
     abstract public function load($id);
 
     /**
+     * Check item ID
+     * @param $id
+     * @return mixed
+     */
+    abstract public function itemExist($id);
+
+    /**
      * Load multiple items
      * @param array $id
      * @return Dvelum_Shop_Goods[]

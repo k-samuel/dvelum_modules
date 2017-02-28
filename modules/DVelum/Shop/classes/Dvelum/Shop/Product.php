@@ -175,6 +175,10 @@ class Dvelum_Shop_Product
 
         foreach ($data as $fieldConfig)
         {
+            if(isset($fieldConfig['disabled']) && $fieldConfig['disabled']){
+                continue;
+            }
+
             $name = $fieldConfig['name'];
 
             if(isset($fieldConfig['lazyLang']) && $fieldConfig['lazyLang']){
