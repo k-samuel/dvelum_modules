@@ -69,7 +69,7 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
 
         $productCode = $item['product'];
 
-        $dataObject = $this->config->get('data_object');
+        $dataObject = $this->config->get('item_class');
 
         $goodsObject = $dataObject::factory($productCode);
 
@@ -117,6 +117,9 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
             $fields = Utils::groupByKey('item_id', $fields);
         }
         $result = [];
+
+        $dataObject = $this->config->get('item_class');
+
         foreach ($id as $itemId)
         {
             if(!isset($goods[$itemId])){
@@ -131,7 +134,7 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
                     }
                 }
             }
-            $object = Dvelum_Shop_Goods::factory($itemData['product']);
+            $object = $dataObject::factory($itemData['product']);
             $object->setRawData($itemData);
             $result[$itemId] = $object;
         }

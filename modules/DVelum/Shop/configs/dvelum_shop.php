@@ -11,7 +11,7 @@ return [
         'adapter' => 'Dvelum_Shop_Storage_Table',
         'items_object'=> 'dvelum_shop_goods',
         'fields_object' => 'dvelum_shop_goods_properties',
-        'data_object' => 'Dvelum_Shop_Goods'
+        'item_class' => 'Dvelum_Shop_Goods'
     ],
     'images' => [
         'adapter'=>'Dvelum_Shop_Image_Medialib',
