@@ -69,7 +69,10 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
 
         $productCode = $item['product'];
 
-        $goodsObject = Dvelum_Shop_Goods::factory($productCode);
+        $dataObject = $this->config->get('data_object');
+
+        $goodsObject = $dataObject::factory($productCode);
+
         $product = $goodsObject->getConfig();
 
         $itemData = $object->getData();
