@@ -36,17 +36,7 @@ return [
         'title'=>'model_number',
         'type' => 'string',
         'system' => true,
-        'required' => false,
-        'lazyLang' => true,
-        'external_code' => '',
-        'group' => 'system'
-    ],
-    'description' => [
-        'name'=>'description',
-        'title'=>'description',
-        'type' => 'text',
-        'system' => true,
-        'required' => false,
+        'required' => true,
         'lazyLang' => true,
         'external_code' => '',
         'group' => 'system'
@@ -67,6 +57,16 @@ return [
         'system' => true,
         'required' => false,
         'lazyLang' => true,
+        'group' => 'system'
+    ],
+    'description' => [
+        'name'=>'description',
+        'title'=>'description',
+        'type' => 'text',
+        'system' => true,
+        'required' => false,
+        'lazyLang' => true,
+        'external_code' => '',
         'group' => 'system'
     ],
     'images'=>[

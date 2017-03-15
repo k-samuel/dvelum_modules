@@ -171,7 +171,8 @@ class Dvelum_Shop_Goods_Form
                     'name' => $field->getName(),
                     'editorName'  => $field->getName(),
                     'title'=> $field->getTitle(),
-                    'frame' =>false
+                    'frame' =>false,
+                    'minHeight'=>600
                 ];
                 break;
         }

@@ -33,6 +33,7 @@ class Dvelum_Shop_Product
             $config->load($id);
             static::$instances[$id] = $config;
         }
+
         return  static::$instances[$id];
     }
 
@@ -283,5 +284,14 @@ class Dvelum_Shop_Product
     public function getFields()
     {
         return $this->data['fields'];
+    }
+
+    /**
+     * Get product title
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->data['title'];
     }
 }
