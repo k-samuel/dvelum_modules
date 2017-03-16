@@ -115,6 +115,16 @@ class Dvelum_Shop_Goods
     }
 
     /**
+     * Check if object has field value
+     * @param $field
+     * @return bool
+     */
+    public function hasValue($field)
+    {
+        return array_key_exists($field, $this->data);
+    }
+
+    /**
      * Get product data
      * @return array
      */

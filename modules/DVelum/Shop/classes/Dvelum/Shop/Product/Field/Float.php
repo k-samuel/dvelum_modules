@@ -28,15 +28,16 @@ class Dvelum_Shop_Product_Field_Float extends Dvelum_Shop_Product_Field_Number
     {
         if($this->config['multivalue']){
             if(!is_array($value)){
-                return [floatval($value)];
+                $value = filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND);
+                return [$value];
             }else{
                 foreach ($value as &$item){
-                    $item = floatval($item);
+                    $item = filter_var($item, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND);
                 }unset($item);
                 return array_values($value);
             }
         }else{
-            return floatval($value);
+            return filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND);
         }
     }
 }

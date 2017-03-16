@@ -71,15 +71,15 @@ class Dvelum_Shop_Product_Field_Number extends Dvelum_Shop_Product_Field
     {
         if($this->config['multivalue']){
             if(!is_array($value)){
-                return [intval($value)];
+                return [filter_var($value,FILTER_SANITIZE_NUMBER_INT)];
             }else{
                 foreach ($value as &$item){
-                    $item = intval($item);
+                    $item = filter_var($item,FILTER_SANITIZE_NUMBER_INT);
                 }unset($item);
                 return array_values($value);
             }
         }else{
-            return intval($value);
+            return filter_var($value,FILTER_SANITIZE_NUMBER_INT);
         }
     }
 }
