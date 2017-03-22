@@ -44,7 +44,7 @@ class Dvelum_Shop_Product_Field_String extends Dvelum_Shop_Product_Field
 
     protected function checkValue($value)
     {
-        if(!is_string($value) || mb_strlen($value,'utf-8') > 255){
+        if(!is_string((string)$value) || mb_strlen($value,'utf-8') > 255){
             return false;
         }
         return true;

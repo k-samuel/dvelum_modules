@@ -116,7 +116,7 @@ class Dvelum_Shop_Goods
 
     /**
      * Check if object has field value
-     * @param $field
+     * @param string $field
      * @return bool
      */
     public function hasValue($field)
