@@ -42,7 +42,7 @@ abstract class Dvelum_Shop_Image_AbstractAdapter
      * Add image
      * @param $path
      * @param array $info
-     * @return @boolean
+     * @return mixed
      */
     abstract function addImage($path, array $info);
 
