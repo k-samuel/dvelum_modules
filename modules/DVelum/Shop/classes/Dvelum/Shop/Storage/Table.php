@@ -54,6 +54,7 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
         $this->itemsModel = Model::factory($config->get('items_object'));
         $this->fieldsModel = Model::factory($config->get('fields_object'));
     }
+
     /**
      * Load goods by id
      * @param integer $id
@@ -148,6 +149,14 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
      */
     public function save(Dvelum_Shop_Goods $item)
     {
+        $isNew = (boolean) $item->getId();
+        $this->fireEvent(Dvelum_Shop_Event::BEFORE_SAVE, $item);
+        if($isNew){
+            $this->fireEvent(Dvelum_Shop_Event::BEFORE_INSERT, $item);
+        }else{
+            $this->fireEvent(Dvelum_Shop_Event::BEFORE_UPDATE, $item);
+        }
+
         $fields = $item->getConfig()->getFields();
         $data = $item->getData();
 
@@ -197,8 +206,8 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
             $o->setValues($system);
 
             if(!$o->save(false)){
-               $itemsDb->rollBack();
-               throw new Exception('Cannot save '.$this->config->get('items_object'));
+                $itemsDb->rollBack();
+                throw new Exception('Cannot save '.$this->config->get('items_object'));
             }
             $id = $o->getId();
             $item->setId($id);
@@ -216,6 +225,12 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
                 }
             }
             $itemsDb->commit();
+            $this->fireEvent(Dvelum_Shop_Event::AFTER_SAVE, $item);
+            if($isNew){
+                $this->fireEvent(Dvelum_Shop_Event::AFTER_INSERT, $item);
+            }else{
+                $this->fireEvent(Dvelum_Shop_Event::AFTER_UPDATE, $item);
+            }
         }catch (Exception $e){
             $itemsDb->rollBack();
             $this->itemsModel->logError($e->getMessage());
@@ -395,14 +410,14 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
         $sql->where('`id` IN('.substr($subSelect->__toString(),0,-1).')');
     }
 
-
     /**
      * Delete item
      * @param Dvelum_Shop_Goods $item
      * @return boolean
      */
-     public function delete(Dvelum_Shop_Goods $item)
-     {
+    public function delete(Dvelum_Shop_Goods $item)
+    {
+        $this->fireEvent(Dvelum_Shop_Event::BEFORE_DELETE, $item);
         try{
             $db = $this->itemsModel->getDbConnection();
             $db->beginTransaction();
@@ -416,22 +431,22 @@ class Dvelum_Shop_Storage_Table extends Dvelum_Shop_Storage_AbstractAdapter
             $fieldsDb = $this->fieldsModel->getDbConnection();
             $fieldsDb->delete($this->fieldsModel->table(),'item_id ='.intval($item->getId()));
             $db->commit();
+            $this->fireEvent(Dvelum_Shop_Event::AFTER_DELETE, $item);
         }catch (Exception $e){
             $this->itemsModel->logError($e->getMessage());
             $db->rollBack();
             return false;
         }
         return true;
-     }
-
+    }
 
     /**
      * Check item ID
      * @param $id
      * @return boolean
      */
-     public function itemExist($id)
-     {
+    public function itemExist($id)
+    {
         return (boolean)$this->count(['id'=>$id]);
-     }
+    }
 }

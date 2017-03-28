@@ -241,6 +241,10 @@ class Dvelum_Backend_Shop_Goods_Controller extends Backend_Controller_Crud
                 continue;
             }
 
+            if($field->isMultiValue() && empty($posted[$name])){
+                $posted[$name] = [];
+            }
+
             try{
                 $object->set($name , $posted[$name]);
             }catch(Exception $e){

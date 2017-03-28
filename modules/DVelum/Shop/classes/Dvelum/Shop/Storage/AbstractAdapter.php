@@ -7,9 +7,38 @@ abstract class Dvelum_Shop_Storage_AbstractAdapter
      */
     protected $config;
 
+    /**
+     * Event listeners
+     * @var array
+     */
+    protected $listeners = [];
+
     public function __construct(Config_Abstract $config)
     {
         $this->config = $config;
+        $listeners  = $config->get('listeners');
+        if(!empty($listeners))
+        {
+            foreach ($listeners as $event => $items)
+            {
+                $this->listeners[$event] = $items;
+            }
+        }
+    }
+
+    /**
+     * Fire storage event
+     * @param string $eventType
+     * @param Dvelum_Shop_Goods $object
+     */
+    public function fireEvent($eventType, Dvelum_Shop_Goods $object)
+    {
+        if(isset($this->listeners[$eventType]) && !empty($this->listeners[$eventType])){
+            $event = new Dvelum_Shop_Event($eventType);
+            foreach ($this->listeners[$eventType] as $item){
+                call_user_func_array($item,[$event,$object]);
+            }
+        }
     }
 
     /**
