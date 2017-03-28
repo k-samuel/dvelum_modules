@@ -60,16 +60,14 @@ class Dvelum_Shop_Product
 
         if(!empty($ids)){
             $model = Model::factory(static::$config['object']);
-            $data = $model->getItems($ids);
-            if(!empty($data)){
-                $data = Utils::rekey($model->getPrimaryKey(),$data);
-            }
-            foreach ($ids as $id){
+            $data =  Db_Object::factory(static::$config['object'] ,$ids);
+            foreach ($ids as $id)
+            {
                 if(!isset($data[$id])){
                     throw new Exception('Undefined product '.$id);
                 }
                 $result[$id] = new static();
-                $result[$id]->load($id,$data[$id]);
+                $result[$id]->load($id,$data[$id]->getData());
                 static::$instances[$id] = $result[$id];
             }
         }
@@ -136,7 +134,7 @@ class Dvelum_Shop_Product
         if(!empty($data)){
             $this->data = $data;
         }elsE{
-            $this->data = $this->model->getItem($id);
+            $this->data = Db_Object::factory($this->model->getObjectName(),$id)->getData();
 
             if(empty($this->data)){
                 throw new Exception('Undefined Product '.$id);
@@ -293,5 +291,13 @@ class Dvelum_Shop_Product
     public function getTitle()
     {
         return $this->data['title'];
+    }
+
+    /**
+     * Get list of product categories
+     */
+    public function getCategories()
+    {
+        return $this->data['category'];
     }
 }
