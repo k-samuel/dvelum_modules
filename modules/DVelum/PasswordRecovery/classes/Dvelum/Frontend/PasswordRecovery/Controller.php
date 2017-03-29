@@ -37,7 +37,7 @@ class Dvelum_Frontend_PasswordRecovery_Controller extends Frontend_Controller
     }
 
     /**
-     * Проверка введеного имейла и отправка письма с кодом активации
+     * Check e-mail and send verification code
      */
     public function verifyAction()
     {
@@ -73,7 +73,7 @@ class Dvelum_Frontend_PasswordRecovery_Controller extends Frontend_Controller
         try{
             $user->setValues(array(
                 'confirmation_code' => $authCode,
-                'confirmation_date' => $confDate
+                'confirmation_expiried' => $confDate
             ));
             if(!$user->save())
                 throw new Exception('Cannot update user info');
@@ -141,7 +141,7 @@ class Dvelum_Frontend_PasswordRecovery_Controller extends Frontend_Controller
 
         $found = $item[0];
 
-        if (strtotime($found['confirmation_date']) < time()) {
+        if (strtotime($found['confirmation_expiried']) < time()) {
             return 'pwd_code_expired';
         }
 
@@ -157,7 +157,7 @@ class Dvelum_Frontend_PasswordRecovery_Controller extends Frontend_Controller
         $configMail = Config::storage()->get('mail.php')->get('forgot_password');
 
         $userData = $user->getData();
-        $confDate = new DateTime($userData['confirmation_date']);
+        $confDate = new DateTime($userData['confirmation_expiried']);
 
         $url = $this->_router->findUrl('dvelum_password_recovery');
 
