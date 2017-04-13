@@ -66,6 +66,12 @@ class Dvelum_Frontend_Articles_Item_Controller extends Frontend_Controller
         if(empty($data['date_published'])){
             $data['date_published'] = date('Y-m-d H:i:s');
         }
+        if(!array_key_exists('meta_keywords',$data)){
+            $data['meta_keywords']='';
+        }
+        if(!array_key_exists('meta_description',$data)){
+            $data['meta_description']='';
+        }
 
         $this->_page->date_published = $data['date_published'];
         $this->_page->html_title = $data['title'];
